@@ -10,5 +10,5 @@ Then to run the server to test run
 ```
 python app4flask.py
 ```
-your timetable will be served at 127.0.0.1:5000/<user name>/<password>/list
+your timetable will be served at 127.0.0.1:5000/(user name)/(password)/list
 on first time run give it a minute or two so that it can scrape your timetable and add it to the database
