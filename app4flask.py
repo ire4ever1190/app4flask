@@ -1,5 +1,4 @@
 import datetime
-import json
 import mechanize
 import requests
 from bs4 import BeautifulSoup
