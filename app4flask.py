@@ -1,7 +1,7 @@
 import datetime
-import mechanize
+
+import mechanicalsoup
 import requests
-from bs4 import BeautifulSoup
 from flask import Flask
 from tinydb import TinyDB, Query, where
 
@@ -10,43 +10,49 @@ app = Flask(__name__)
 tinydb = TinyDB('db.json')
 query = Query()
 
+
 def update(user, password):
         try:
                 print("update starting")
                 def browse():
-                        br = mechanize.Browser()
+                        br = mechanicalsoup.StatefulBrowser()
                         url = "http://{{ school name }}.app4.ws/"
                         br.open(url)
-                        print(br.title())
+                        print(br.get_url())
                         br.select_form(nr=0)
                         br["txtLoginUserID"] = user
                         br["txtLoginPassword"] = password
-                        br.submit()
-                        print(br.title())
-                        br.open(url + str("app4.ws/portal/timetable.php"))
-                        soup = BeautifulSoup(br.response().read(), "lxml")
-                        classes = soup.find_all('td', {"width": '18%'})
+                        br.submit_selected()
+                        print(br.get_url())
+                        print(url + str("/portal/timetable.php"))
+                        br.open(url + str("portal/timetable.php"))
+                        print(br.get_current_page())
+                        classes = br.get_current_page().find_all('td', {"width": '18%'})
+                        print(classes)
                         timetablelist = []
-                        #find the tag holding th classes and get the text
+                        # find the tag holding the classes and get the text
                         for i in classes:
                                 classes = i.find_all('span', {"class": "ttsub"})
-                                for i in classes:
-                                        timetablelist.append(i.text.strip())
+                                for ii in classes:
+                                        timetablelist.append(ii.text.strip())
                         return timetablelist
                 timetablelist = browse()
                 # use start and end to break the the main into into smaller lists of days
                 def daylist(start, end, list):
                         daylist = []
-                        for i in range(start,end):
+                        print(start)
+                        print(end)
+                        for i in range(start, end):
+                                print(i)
                                 daylist.append(list[i])
                         return daylist
                 # insert data into database
                 def inset(start, end, dayid, list, user):
                         session = 1
                         print(start, end)
-                        classes = daylist(start, end,list)
+                        classes = daylist(start, end, list)
                         for i in classes:
-                                tinydb.insert({'Day':dayid, 'Session':session, 'class': i,"user": user})
+                                tinydb.insert({'Day': dayid, 'Session':session, 'class': i,"user": user})
                                 session += 1
                 dayid = 1
                 start = 0
@@ -68,7 +74,7 @@ def update(user, password):
 
 def get(day, session, user):
         jsonstr = tinydb.get((where('Day') == day) & (where('Session') == session) & (where('user') == user))
-        print jsonstr
+        print(jsonstr)
         parse = jsonstr["class"]
         return parse
 

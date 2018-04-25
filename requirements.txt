@@ -1,6 +1,5 @@
 datetime
-mechanize
+mechanicalsoup
 requests
-bs4
 flask
 tinydb
