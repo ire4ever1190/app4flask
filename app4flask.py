@@ -8,7 +8,7 @@ from tinydb import TinyDB, Query, where
 
 app = Flask(__name__)
 
-tinydb = TinyDB('files/db.json')
+tinydb = TinyDB('db.json')
 query = Query()
 
 def update(user, password):
