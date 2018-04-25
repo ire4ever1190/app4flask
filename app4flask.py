@@ -1,10 +1,11 @@
-from tinydb import TinyDB, Query, where
-import json
-from flask import Flask
 import datetime
+import json
+import mechanize
 import requests
 from bs4 import BeautifulSoup
-import mechanize
+from flask import Flask
+from tinydb import TinyDB, Query, where
+
 app = Flask(__name__)
 
 tinydb = TinyDB('files/db.json')
@@ -34,31 +35,31 @@ def update(user, password):
                                         timetablelist.append(i.text.strip())
                         return timetablelist
                 timetablelist = browse()
-                # use x and y to break the the main into into smaller lists of days
-                def daylist(x,y,list):
+                # use start and end to break the the main into into smaller lists of days
+                def daylist(start, end, list):
                         daylist = []
-                        for i in range(x,y):
+                        for i in range(start,end):
                                 daylist.append(list[i])
                         return daylist
                 # insert data into database
-                def inset(x, y, z, list, user):
+                def inset(start, end, dayid, list, user):
                         session = 1
-                        print(y,z)
-                        classes = daylist(x, y,list)
+                        print(start, end)
+                        classes = daylist(start, end,list)
                         for i in classes:
-                                tinydb.insert({'Day':z, 'Session':session, 'class': i,"user": user})
+                                tinydb.insert({'Day':dayid, 'Session':session, 'class': i,"user": user})
                                 session += 1
-                z = 1
-                x = 0
-                y = 9
+                dayid = 1
+                start = 0
+                end = 9
                 # add classes to database
 
-                while z <= 10:
+                while dayid <= 10:
 
-                        inset(x, y, z, timetablelist, user)
-                        z += 1
-                        x += 9
-                        y += 9
+                        inset(start, end, dayid, timetablelist, user)
+                        dayid += 1
+                        start += 9
+                        end += 9
 
                 print("database updated")
 
