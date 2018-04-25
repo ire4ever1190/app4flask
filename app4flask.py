@@ -80,7 +80,7 @@ def show_post(studentnum, password):
                 for i in range(1, 10):
                         classes.append("<item>" + str(get(today, i, studentnum)) + "</item>")
                         timetablefordaylist = ''.join(classes)
-                        return timetablefordaylist
+
 
                 return timetablefordaylist
         # if there not in the database this except gets raised and updates the timetable
@@ -90,3 +90,5 @@ def show_post(studentnum, password):
 
 
 app.run()
+#TODO use mechanical soup so this is compaitable with python 3
+
