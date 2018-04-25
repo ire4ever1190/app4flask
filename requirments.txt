@@ -1,0 +1,6 @@
+tinydb
+flask
+datetime
+requests
+bs4
+mechanize
