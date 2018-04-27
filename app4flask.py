@@ -113,15 +113,16 @@ def update(user, password):
                 pass
 
 
-def get(day, session, user):
+def get(day, session, user, item):
         jsonstr = tinydb.get((where('Day') == day) & (where('Session') == session) & (where('user') == user))
         print(jsonstr)
-        parse = jsonstr["class"]
+        item = str(item)
+        parse = jsonstr[item]
         return parse
 
 
 @app.route('/<studentnum>/<password>/list')
-def show_post(studentnum, password):
+def show_info(studentnum, password):
         try:
                 # Gets the day of the week has a int e.g. Monday = 0, Tuesday = 1
                 today = datetime.datetime.today().weekday()
@@ -134,9 +135,11 @@ def show_post(studentnum, password):
         except TypeError:
                 update(studentnum, password)
                 return "please stand by"
+@app.route('/<studentnum>/<password>/extralist')
+def show_extrainfo(studentnum, password):
 
 
-#app.run()
-update(37161, "gold4green")
+
+app.run()
 #TODO see if pypy can speed up the updating
 
