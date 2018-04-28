@@ -118,4 +118,7 @@ def read_db(db):
     return timetable
 def get_day(tt, day_name, week):
     days = list(filter(lambda day: day.day_name == day_name, tt))
-    return days[0] if days[0].week_id == week else days[1]
+    try:
+        return days[0] if days[0].week_id == week else days[1]
+    except IndexError:
+        return Day([], day_name, 0)
