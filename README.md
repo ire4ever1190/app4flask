@@ -24,4 +24,4 @@ Or in python2.
 ```
 python -m flask run
 ```
-Your timetable will be served at localhost:5000/
+Your timetable will be served at [localhost:5000](http://localhost:5000/)
