@@ -133,7 +133,7 @@ def show_info(studentnum, password):
                         timetablefordaylist = ''.join(classes)
                 return timetablefordaylist
         # if there not in the database this except gets raised and updates the timetable
-        except mechanicalsoup.LinkNotFoundError:
+        except TypeError:
                 update(studentnum, password)
                 return "please stand by"
 
@@ -144,14 +144,16 @@ def show_extrainfo(studentnum, password):
                 # Gets the day of the week has a int e.g. Monday = 0, Tuesday = 1
                 today = datetime.datetime.today().weekday()
                 classes = []
-                for i in range(1, 10):
+                items = ["class", "time", "teacher", "room"]
+                for x in items:
+                        for i in range(1, 10):
                         # Formats the info into tags e.g. <teacher> #Teacher name# </teacher>
-                        makeitem = lambda x: classes.append("<{!o}>{}</{!o}>").format(x, get(today, i, studentnum, x))
-                        items = ["class", "time", "teacher", "room"]
-                        for x in items:
-                                makeitem(x)
+                                #info = get(today, i, studentnum)
+                                info = "<{}>{}</{}>".format(x, get(today, i, studentnum), x)
+                                classes.append(info)
 
-                        timetablefordaylist = ''.join(classes)
+
+                timetablefordaylist = ''.join(classes)
                 return timetablefordaylist
         # if there not in the database this except gets raised and updates the timetable
         except TypeError:
