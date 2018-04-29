@@ -113,12 +113,10 @@ def update(user, password):
                 pass
 
 
-def get(day, session, user):
-        print(day, session, user)
+def get(day, session, user, item):
         tinydb = TinyDB('db.json')
         jsonstr = tinydb.get((where('Day') == day) & (where('Session') == session) & (where('user') == user))
-        print(jsonstr)
-        parse = jsonstr["class"]
+        parse = jsonstr[item]
         return parse
 
 
@@ -145,11 +143,12 @@ def show_extrainfo(studentnum, password):
                 today = datetime.datetime.today().weekday()
                 classes = []
                 items = ["class", "time", "teacher", "room"]
-                for x in items:
-                        for i in range(1, 10):
+                for i in range(1, 10):
+                        for x in items:
+
+
                         # Formats the info into tags e.g. <teacher> #Teacher name# </teacher>
-                                #info = get(today, i, studentnum)
-                                info = "<{}>{}</{}>".format(x, get(today, i, studentnum), x)
+                                info = "<{}>{}</{}>".format(x, get(today, i, studentnum, x), x)
                                 classes.append(info)
 
 

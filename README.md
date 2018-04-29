@@ -6,9 +6,16 @@ To run first clone this then cd into the dir then run
 ```
 pip install -r requirements.txt
 ```
-Then to run the server to test run
+Then set your schools name from the command line
+```
+export school={{ school name }}
+```
+
+Then to run the server
 ```
 python app4flask.py
 ```
 your timetable will be served at 127.0.0.1:5000/(user name)/(password)/list
 on first time run give it a minute or two so that it can scrape your timetable and add it to the database
+
+If you want to host it, you need to set up a uWSGI config
