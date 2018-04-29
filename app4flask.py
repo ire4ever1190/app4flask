@@ -127,7 +127,7 @@ def show_info(studentnum, password):
                 today = datetime.datetime.today().weekday()
                 classes = []
                 for i in range(1, 10):
-                        classes.append("<class>" + str(get(today, i, studentnum)) + "</class>")
+                        classes.append("<class>" + str(get(today, i, studentnum, "class")) + "</class>")
                         timetablefordaylist = ''.join(classes)
                 return timetablefordaylist
         # if there not in the database this except gets raised and updates the timetable
@@ -159,7 +159,23 @@ def show_extrainfo(studentnum, password):
                 update(studentnum, password)
                 return "please stand by"
 
+@app.route('/<studentnum>/<password>/list/<int:day>')
+def show_info_certain_day(studentnum, password, day):
+        try:
+                # Day of the week is declared in the url week 1 is 1-5 and week 2 is 6-10
+                classes = []
+                for i in range(1, 10):
+                        classes.append("<class>" + str(get(day, i, studentnum, "class")) + "</class>")
+                        timetablefordaylist = ''.join(classes)
+                return timetablefordaylist
+        # if there not in the database this except gets raised and updates the timetable
+        except TypeError:
+                update(studentnum, password)
+                return "please stand by"
+
+
 app.run()
+
 
 
 
