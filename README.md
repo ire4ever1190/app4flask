@@ -14,7 +14,7 @@ export password=password
 ```
 Next you will need to export index.py to FLASK_APP
 ```
-export FLASK_APP=index.py flask run
+python3 index.py
 ```
 Finally, simply run flask.
 ```
