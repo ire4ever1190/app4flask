@@ -6,8 +6,8 @@ class Day(list):
         self.week_id = 0 if day_id == 0 else 1 if day_id < 6 else 2
         self.extend(list)
     def return_html(self):
-        html = "<h1>{}</h1><h3>Week {}</h3>".format(self.day_name, self.week_id)
+        html = "<heading><h1>{}</h1><h3>Week {}</h3></heading>".format(self.day_name, self.week_id)
         for session in self:
-            html += "<code>{}</code><teacher>{}</teacher><room>{}</room><time>{}<time>"
-                .format(session.code, session.teacher, session.room, session.time)
+            html += "<session><code>{}</code><br><teacher>{}</teacher><br><room>{}</room><br><time>{}<time></session><br>".\
+                    format(session.code, session.teacher, session.room, session.time)
         return html
