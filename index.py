@@ -22,3 +22,5 @@ def run_flask():
         tt = Timetable.get_timetable(school, user, password)
         Timetable.write_db(tt, timetable_db)
         return Timetable.get_day(tt, today, 1).return_html()
+   
+app.run()
