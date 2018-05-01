@@ -7,4 +7,8 @@ class Session:
         self.room = room
         self.time = time
     def return_html(self):
-        return ("<item>{}</item>".format(self.code))
+        return ("<code>{}</code>".format(self.code))
+    def return_all_html(self):
+        return ("<code>{}</code><teacher>{}</teacher><room>{}</room><time>{}<time>"
+                .format(self.code, self.teacher, self.room, self.time))
+    
