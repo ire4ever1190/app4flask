@@ -12,16 +12,12 @@ export school=highschool
 export user=12345
 export password=password
 ```
-Next you will need to export index.py to FLASK_APP
+Finally, simply run the script which start flask automatically.
 ```
 python3 index.py
 ```
-Finally, simply run flask.
-```
-python3 -m flask run
-```
 Or in python2.
 ```
-python -m flask run
+python2 index.py
 ```
 Your timetable will be served at [localhost:5000](http://localhost:5000/)
