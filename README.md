@@ -25,13 +25,13 @@ If you want to host it, you need to set up a uWSGI config
 Current options
 ---
 
-#####/(user)/(password)/list
+##### /(user)/(password)/list
 Display a basic list where it just displays the timetable
 
 
-#####/(user)/(password)/extralist
+##### /(user)/(password)/extralist
 Displays more info then the basic list, It displays timetable, 
 classroom, teacher, time
 
-#####/(user)/(password)/list/(day)
+##### /(user)/(password)/list/(day)
 Displays a basic list but for a certain day
