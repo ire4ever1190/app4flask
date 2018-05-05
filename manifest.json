@@ -1,0 +1,17 @@
+{
+ "name": "APP4 Timetable",
+ "short_name": "app4",
+ "lang":"en-US",
+ "start_url": "/",
+ "background-color": "#2CE350",
+ "theme-color": "#18BC9C",
+ "display": "standalone",
+ "icons": [
+  {
+   "src": "./images/ic_launcher.png",
+   "sizes": "192x192",
+   "type": "image/png",
+   "density": "0.75"
+  }
+ ]
+}
