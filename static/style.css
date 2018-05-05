@@ -1,0 +1,21 @@
+html {
+  font-family: helvetica
+}
+body {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto;
+  grid-gap: 10px;
+}
+teacher {
+  grid-column: 2;
+}
+class {
+  grid-column: 2;
+  background-color: #eee;
+  text-align: center;
+}
+class {
+  font-weight: bold;
+  font-family: inherit;
+}

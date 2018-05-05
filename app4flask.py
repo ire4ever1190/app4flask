@@ -7,7 +7,6 @@ from flask import Flask
 from tinydb import TinyDB, Query, where
 
 app = Flask(__name__)
-
 tinydb = TinyDB('db.json')
 query = Query()
 school = str(os.environ["school"])
@@ -107,18 +106,21 @@ def update(user, password):
                         end += 9
 
                 print("database updated")
-        # I know this isn't a good idea but atm there isn't issue
         except TypeError:
                 print("connection unreliable, please try again later")
                 pass
 
 
 def get(day, session, user, item):
-        tinydb = TinyDB('db.json')
-        jsonstr = tinydb.get((where('Day') == day) & (where('Session') == session) & (where('user') == user))
-        parse = jsonstr[item]
-        return parse
-
+        try:
+                tinydb = TinyDB('db.json')
+                jsonstr = tinydb.get((where('Day') == day) & (where('Session') == session) & (where('user') == user))
+                print(jsonstr)
+                parse = jsonstr[item]
+                return parse
+        except mechanicalsoup.LinkNotFoundError:
+                print("Database cannot be read")
+                pass
 
 @app.route('/<studentnum>/<password>/list')
 def show_info(studentnum, password):
@@ -133,7 +135,7 @@ def show_info(studentnum, password):
         # if there not in the database this except gets raised and updates the timetable
         except TypeError:
                 update(studentnum, password)
-                return "please stand by"
+                return "Please reload page"
 
 
 @app.route('/<studentnum>/<password>/extralist')
@@ -145,19 +147,15 @@ def show_extrainfo(studentnum, password):
                 items = ["class", "time", "teacher", "room"]
                 for i in range(1, 10):
                         for x in items:
-
-
                         # Formats the info into tags e.g. <teacher> #Teacher name# </teacher>
                                 info = "<{}>{}</{}>".format(x, get(today, i, studentnum, x), x)
                                 classes.append(info)
-
-
                 timetablefordaylist = ''.join(classes)
                 return timetablefordaylist
         # if there not in the database this except gets raised and updates the timetable
         except TypeError:
                 update(studentnum, password)
-                return "please stand by"
+                return "Please reload page"
 
 @app.route('/<studentnum>/<password>/list/<int:day>')
 def show_info_certain_day(studentnum, password, day):
@@ -171,10 +169,35 @@ def show_info_certain_day(studentnum, password, day):
         # if there not in the database this except gets raised and updates the timetable
         except TypeError:
                 update(studentnum, password)
-                return "please stand by"
+                classes = []
+                for i in range(1, 10):
+                        classes.append("<class>" + str(get(day, i, studentnum, "class")) + "</class>")
+                        timetablefordaylist = ''.join(classes)
+                return timetablefordaylist
 
+@app.route('/<studentnum>/<password>/webapp')
+def show_webapp(studentnum, password):
+        try:
+                # Gets the day of the week has a int e.g. Monday = 0, Tuesday = 1
+                today = datetime.datetime.today().weekday()
+                classes = []
+                items = ["class", "time", "teacher", "room"]
+                classes.append("<body>")
+                for i in range(1, 10):
+                        for x in items:
+                        # Formats the info into tags e.g. <teacher> #Teacher name# </teacher>
+                                info = "<{}>{}</{}>".format(x, get(today, i, studentnum, x), x)
+                                classes.append(info)
+                classes.append("</body>")
+                timetablefordaylist = ''.join(classes)
+                return "<head><link rel='stylesheet' href='/static/style.css'</link></head>" + timetablefordaylist
+        # if there not in the database this except gets raised and updates the timetable
+        except TypeError:
+                update(studentnum, password)
+                return "Please reload page"
 
-app.run()
+if __name__ == '__main__':
+        app.run()
 
 
 
