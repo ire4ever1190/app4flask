@@ -1,0 +1,21 @@
+html {
+  font-family: helvetica
+}
+body {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto;
+  grid-gap: 10px;
+}
+heading {
+  grid-column: 2;
+}
+session {
+  grid-column: 2;
+  background-color: #eee;
+  text-align: center;
+}
+code {
+  font-weight: bold;
+  font-family: inherit;
+}
