@@ -81,14 +81,18 @@ def show_webapp(studentnum, password):
                 return "Please reload page"
 
 
+
+# This is the index page usage is not yet implemented \_(-_-)_/.
+@app.route('/')
+def index():
+        return '\_(-_-)_/'
 # Needed for PWA
-@app.route('/sw.js')
-def sw():
-        return app.send_static_file('sw.js')
+#@app.route('/sw.js')
+##def sw():
+ #       return app.send_static_file('sw.js')
 
 if __name__ == '__main__':
         app.run()
-
 
 
 
