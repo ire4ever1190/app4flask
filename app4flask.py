@@ -1,8 +1,8 @@
-from flask import Flask, render_template, Markup
+from flask import Flask, render_template, Markup, Response
 import datetime
 import datahandler
 app = Flask(__name__)
-data = datahandler.main
+data = datahandler.main()
 @app.route('/<studentnum>/<password>/list')
 def show_info(studentnum, password):
         try:
@@ -79,6 +79,12 @@ def show_webapp(studentnum, password):
         except TypeError:
                 data.update(studentnum, password)
                 return "Please reload page"
+
+
+# Needed for PWA
+@app.route('/sw.js')
+def sw():
+        return app.send_static_file('sw.js')
 
 if __name__ == '__main__':
         app.run()

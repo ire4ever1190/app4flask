@@ -1,12 +1,56 @@
+<html lang="en">
 <head>
     <title>{{ user }}'s Timetable</title>
-    <link rel='stylesheet' href='/static/style.css'>
-    <link rel="icon" type="image/png" sizes="192x192" href="images/ic_launcher.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/static/icons.ico">
+    <link rel="manifest" href="/manifest.json">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
+<!-- <script src="/sw.js"></script> -->
+<style>
+    html {
+  font-family: helvetica
+}
+body {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto;
+  grid-gap: 10px;
+}
+teacher, time, room {
+  grid-column: 2;
+
+}
+class {
+  grid-column: 2;
+  background-color: #eee;
+  text-align: center;
+}
+class {
+  font-weight: bold;
+  font-family: inherit;
+}
+h1 {
+  grid-column: 2
+}
+h3 {
+  grid-column: 2
+}
+</style>
 <h1>{{ user }}'s Timetable</h1>
 <br>
 <h3>Day {{ day }}</h3>
 
 {{ content }}
+    <script>
+      if('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/static/sw.js')
+          .then(function() {
+                console.log('Service Worker Registered');
+          });
+      }
+
+    </script>
 </body>
+</html>

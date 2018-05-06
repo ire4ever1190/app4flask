@@ -9,7 +9,7 @@ school = str(os.environ["school"])
 
 
 class main():
-        def update(user, password):
+        def update(self, user, password):
                 try:
                         print("update starting")
 
@@ -112,8 +112,7 @@ class main():
                         print("connection unreliable, please try again later")
                         pass
 
-
-        def get(day, session, user, item):
+        def get(self, day, session, user, item):
                 try:
                         tinydb = TinyDB('db.json')
                         jsonstr = tinydb.get((where('Day') == day) & (where('Session') == session) & (where('user') == user))
