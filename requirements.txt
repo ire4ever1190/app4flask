@@ -2,3 +2,6 @@ datetime
 mechanicalsoup
 flask
 tinydb
+# If you want to run tests then uncomment these next two lines
+# tox
+# pytest
