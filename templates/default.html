@@ -44,6 +44,7 @@ h3 {
 
 {{ content }}
     <script>
+
       if('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/static/sw.js')
           .then(function() {

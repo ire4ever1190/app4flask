@@ -1,3 +1,6 @@
 .idea
 __pycache__
 db.json
+.tox
+.pytest_cache
+_pycache_
