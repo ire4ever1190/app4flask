@@ -114,7 +114,6 @@ class main():
 
         def get(self, day, session, user, item):
                 try:
-                        tinydb = TinyDB('db.json')
                         jsonstr = tinydb.get((where('Day') == day) & (where('Session') == session) & (where('user') == user))
                         print(jsonstr)
                         parse = jsonstr[item]
