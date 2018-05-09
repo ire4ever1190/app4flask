@@ -85,11 +85,11 @@ def show_webapp(studentnum, password):
 # This is the index page usage is not yet implemented \_(-_-)_/.
 @app.route('/')
 def index():
+        # So here the idea I will have a form here that you enter you username and password which redirects you
+        # to the webapp. I will probably change the extra info to return json instead so it can be parsed super
+        # easy
         return '\_(-_-)_/'
-# Needed for PWA
-#@app.route('/sw.js')
-##def sw():
- #       return app.send_static_file('sw.js')
+
 
 if __name__ == '__main__':
         app.run()
