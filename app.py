@@ -1,8 +1,15 @@
-from flask import Flask, render_template, Markup, Response
+from flask import Flask, render_template, Markup, request, redirect
 import datetime
 import datahandler
+import Forms
+from config import Config
+
+
 app = Flask(__name__)
+app.config.from_object(Config)
 data = datahandler.main()
+
+
 @app.route('/<studentnum>/<password>/list')
 def show_info(studentnum, password):
         try:
@@ -81,15 +88,24 @@ def show_webapp(studentnum, password):
                 return "Please reload page"
 
 
-
-# This is the index page usage is not yet implemented \_(-_-)_/.
-@app.route('/')
+# This is the login page usage is not yet implemented \_(-_-)_/.
+@app.route('/', methods=['GET', 'POST'])
 def index():
         # So here the idea I will have a form here that you enter you username and password which redirects you
         # to the webapp. I will probably change the extra info to return json instead so it can be parsed super
         # easy
-        return '\_(-_-)_/'
+        form = Forms.LoginForm(request.form)
+        if form.update.data == True:
+                data.update(form.username.data, form.password.data)
 
+        if form.validate_on_submit():
+                return redirect('/{}/{}/webapp'.format(form.username.data, form.password.data))
+        return render_template('Login.html', form=form)
+
+
+@app.route('/<username>/<password>/sw.js')
+def showsw(username, password):
+        return app.send_static_file('sw.js')
 
 if __name__ == '__main__':
         app.run()

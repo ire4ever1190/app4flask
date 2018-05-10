@@ -1,8 +1,9 @@
 import os
 import re
+from flask_wtf import Form
+from wtforms import TextField
 import mechanicalsoup
 from tinydb import TinyDB, where
-
 
 tinydb = TinyDB('db.json')
 school = str(os.environ["school"])
@@ -121,3 +122,4 @@ class main():
                 except mechanicalsoup.LinkNotFoundError:
                         print("Database cannot be read")
                         pass
+

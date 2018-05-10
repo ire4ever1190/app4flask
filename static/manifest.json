@@ -2,10 +2,8 @@
  "name": "APP4 Timetable",
  "short_name": "app4",
  "lang":"en-US",
- "start_url": "/",
  "background-color": "#ffffff",
  "theme-color": "#ffffff",
- "display": "standalone",
  "icons": [
   {
    "src": "/icons.ico",
