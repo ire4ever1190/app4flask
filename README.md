@@ -1,6 +1,8 @@
 # app4flask
 
-
+#### THIS DOES NOT WORK ON ITS OWN
+#### YOU MUST HAVE AN APP4 ACCOUNT
+#### FOR THIS TO WORK
 This is a simple flask server to scrape your timetable from app4 website then display it has a simple to parse webpage so that it can be 
 displayed in things such has an app or in things such has conky/rainmeter
 
