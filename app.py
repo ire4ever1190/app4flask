@@ -23,7 +23,7 @@ def show_info(studentnum, password):
         # if there not in the database this except gets raised and updates the timetable
         except TypeError:
                 data.update(studentnum, password)
-                return "Please reload page"
+                return show_info(studentnum, password)
 
 
 @app.route('/<studentnum>/<password>/extralist', methods=['POST'])
@@ -43,8 +43,7 @@ def show_extrainfo(studentnum, password):
         # if there not in the database this except gets raised and updates the timetable
         except TypeError:
                 data.update(studentnum, password)
-                return "Please reload page"
-
+                return show_extrainfo(studentnum, password)
 @app.route('/<studentnum>/<password>/list/<int:day>')
 def show_info_certain_day(studentnum, password, day):
         try:
@@ -57,11 +56,7 @@ def show_info_certain_day(studentnum, password, day):
         # if there not in the database this except gets raised and updates the timetable
         except TypeError:
                 data.update(studentnum, password)
-                classes = []
-                for i in range(1, 10):
-                        classes.append("<class>" + str(data.get(day, i, studentnum, "class")) + "</class>")
-                        timetablefordaylist = ''.join(classes)
-                return timetablefordaylist
+                return show_info_certain_day(studentnum, password, day)
 
 
 def show_webapp(studentnum, password):
@@ -85,19 +80,18 @@ def show_webapp(studentnum, password):
         # if there not in the database this except gets raised and updates the timetable
         except TypeError:
                 data.update(studentnum, password)
-                return "Please reload page"
+                return show_webapp()
 
 
-# This is the login page usage is not yet implemented \_(-_-)_/.
 @app.route('/', methods=['GET', 'POST'])
 def index():
-        # So here the idea I will have a form here that you enter you username and password which redirects you
-        # to the webapp. I will probably change the extra info to return json instead so it can be parsed super
-        # easy
+        # This is the index page. It shows a form asking for username and password and if the person wants to update
+        # there timetable.
         form = Forms.LoginForm(request.form)
+        # If they clicked update timetable this is runned
         if form.update.data == True:
                 data.update(form.username.data, form.password.data)
-
+        # When they press submit then there shown there timetable
         if form.validate_on_submit():
                 return show_webapp(form.username.data, form.password.data)
         return render_template('Login.html', form=form)
