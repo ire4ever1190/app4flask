@@ -35,3 +35,7 @@ classroom, teacher, time
 
 ##### /(user)/(password)/list/(day)
 Displays a basic list but for a certain day
+
+##### /
+Displays a form to enter username and password which then displays
+your timetable in a human readable format
