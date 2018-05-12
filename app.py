@@ -1,4 +1,4 @@
-from flask import Flask, render_template, Markup, request, redirect
+from flask import Flask, render_template, Markup, request
 import datetime
 import datahandler
 import Forms
@@ -35,7 +35,7 @@ def show_extrainfo(studentnum, password):
                 items = ["class", "time", "teacher", "room"]
                 for i in range(1, 10):
                         for x in items:
-                        # Formats the info into tags e.g. <teacher> #Teacher name# </teacher>
+                                # Formats the info into tags e.g. <teacher> #Teacher name# </teacher>
                                 info = "<{}>{}</{}>".format(x, data.get(today, i, studentnum, x), x)
                                 classes.append(info)
                 timetablefordaylist = ''.join(classes)
@@ -44,6 +44,8 @@ def show_extrainfo(studentnum, password):
         except TypeError:
                 data.update(studentnum, password)
                 return show_extrainfo(studentnum, password)
+
+
 @app.route('/<studentnum>/<password>/list/<int:day>')
 def show_info_certain_day(studentnum, password, day):
         try:
@@ -59,6 +61,7 @@ def show_info_certain_day(studentnum, password, day):
                 return show_info_certain_day(studentnum, password, day)
 
 
+# This doesn't need a route. It is only used by the index route
 def show_webapp(studentnum, password):
         try:
                 # Gets the day of the week has a int e.g. Monday = 0, Tuesday = 1
@@ -67,7 +70,7 @@ def show_webapp(studentnum, password):
                 items = ["class", "time", "teacher", "room"]
                 for i in range(1, 10):
                         for x in items:
-                        # Formats the info into tags e.g. <teacher> #Teacher name# </teacher>
+                                # Formats the info into tags e.g. <teacher> #Teacher name# </teacher>
                                 info = "<{}>{}</{}>".format(x, data.get(today, i, studentnum, x), x)
                                 classes.append(info)
                 timetablefordaylist = ''.join(classes)
@@ -88,7 +91,7 @@ def index():
         # This is the index page. It shows a form asking for username and password and if the person wants to update
         # there timetable.
         form = Forms.LoginForm(request.form)
-        # If they clicked update timetable this is runned
+        # If they clicked update timetable this is called
         if form.update.data == True:
                 data.update(form.username.data, form.password.data)
         # When they press submit then there shown there timetable
@@ -97,8 +100,8 @@ def index():
         return render_template('Login.html', form=form)
 
 
-@app.route('/<username>/<password>/sw.js')
-def showsw(username, password):
+@app.route('/sw.js')
+def showsw():
         return app.send_static_file('sw.js')
 
 if __name__ == '__main__':

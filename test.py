@@ -4,6 +4,9 @@ import datetime
 
 username = str(os.environ["username"])
 password = str(os.environ["password"])
+def test_updater():
+        assert app.data.update(username, password) != '0'
+
 
 def test_info():
         today = datetime.datetime.today().weekday()
