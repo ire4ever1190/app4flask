@@ -26,7 +26,7 @@ def show_info(studentnum, password):
                 return "Please reload page"
 
 
-@app.route('/<studentnum>/<password>/extralist')
+@app.route('/<studentnum>/<password>/extralist', methods=['POST'])
 def show_extrainfo(studentnum, password):
         try:
                 # Gets the day of the week has a int e.g. Monday = 0, Tuesday = 1
@@ -63,7 +63,7 @@ def show_info_certain_day(studentnum, password, day):
                         timetablefordaylist = ''.join(classes)
                 return timetablefordaylist
 
-@app.route('/<studentnum>/<password>/webapp')
+
 def show_webapp(studentnum, password):
         try:
                 # Gets the day of the week has a int e.g. Monday = 0, Tuesday = 1
@@ -99,7 +99,7 @@ def index():
                 data.update(form.username.data, form.password.data)
 
         if form.validate_on_submit():
-                return redirect('/{}/{}/webapp'.format(form.username.data, form.password.data))
+                return show_webapp(form.username.data, form.password.data)
         return render_template('Login.html', form=form)
 
 
