@@ -41,3 +41,14 @@ Displays a basic list but for a certain day
 ##### /
 Displays a form to enter username and password which then displays
 your timetable in a human readable format
+
+### Development
+
+To use the tests you need to run 
+```
+pip install -r devrequirements.txt
+```
+Then to run tests you run
+```
+pytest
+```
