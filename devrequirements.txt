@@ -1,0 +1,8 @@
+datetime
+mechanicalsoup
+flask
+tinydb
+flask_wtf
+wtforms
+tox
+pytest
