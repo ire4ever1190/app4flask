@@ -2,8 +2,5 @@ datetime
 mechanicalsoup
 flask
 tinydb
-flask-WTF
+flask-wtf
 wtforms
-# If you want to run tests then uncomment these next two lines
-# tox
-# pytest

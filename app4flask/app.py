@@ -1,8 +1,8 @@
 from flask import Flask, render_template, Markup, request
 import datetime
-import datahandler
-import Forms
-from config import Config
+from app4flask import datahandler
+from app4flask import Forms
+from app4flask.config import Config
 
 
 app = Flask(__name__)
@@ -110,4 +110,3 @@ if __name__ == '__main__':
 
 
 #TODO fix week2 issue
-

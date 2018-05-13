@@ -15,7 +15,7 @@ Then set your schools name from the command line
 export school={{ school name }}
 ```
 
-Then to run the server
+Then to run the server first cd into 'app4flask' then run
 ```
 python app.py
 ```

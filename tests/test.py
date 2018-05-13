@@ -1,4 +1,6 @@
-import app
+import os
+os.chdir("..")
+from app4flask import app
 import os
 import datetime
 

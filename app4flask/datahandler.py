@@ -1,7 +1,5 @@
 import os
 import re
-from flask_wtf import Form
-from wtforms import TextField
 import mechanicalsoup
 from tinydb import TinyDB, where
 
