@@ -50,5 +50,6 @@ pip install -r devrequirements.txt
 ```
 Then to run tests you run
 ```
-pytest
+cd app4flask
+py.test test.py
 ```

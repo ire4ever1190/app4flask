@@ -1,8 +1,8 @@
 from flask import Flask, render_template, Markup, request
 import datetime
-from app4flask import datahandler
-from app4flask import Forms
-from app4flask.config import Config
+import datahandler
+import Forms
+from config import Config
 
 
 app = Flask(__name__)
