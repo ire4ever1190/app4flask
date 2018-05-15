@@ -54,6 +54,7 @@ def show_webapp(studentnum, password):
         try:
                 # Gets the day of the week has a int e.g. Monday = 0, Tuesday = 1
                 today = datetime.datetime.today().weekday()
+                today += 1
                 classes = []
                 items = ["class", "time", "teacher", "room"]
                 for session in range(1, 10):
