@@ -79,6 +79,7 @@ class main():
                                                 {'Day': dayid, 'Session': session, 'class': clas, "user": user,
                                                  "time": time,
                                                  "room": room, "teacher": teacher})
+
                                         session += 1
 
                         dayid = 1
@@ -97,12 +98,12 @@ class main():
                         print("connection unreliable, please try again later")
                         pass
 
-        def get(self, day, session, user, item):
-                try:
-                        jsonstr = tinydb.get((where('Day') == day) & (where('Session') == session) & (where('user') == user))
-                        parse = jsonstr[item]
-                        return parse
-                except TypeError:
-                        print("Database cannot be read")
-                        pass
+        # This turns
+        def getjson(self, day, session, user):
+                jsonstr = tinydb.get((where('Day') == day) & (where('Session') == session) & (where('user') == user))
+                return jsonstr
 
+        def get(self, day, session, user, item):
+                jsonstr = tinydb.get((where('Day') == day) & (where('Session') == session) & (where('user') == user))
+                parse = jsonstr[item]
+                return parse
