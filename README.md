@@ -24,18 +24,35 @@ on first time run give it a minute or two so that it can scrape your timetable a
 
 If you want to host it, you need to set up a uWSGI config
 
+Using the api
+---
+
+once you have successfully installed the flask app and are hosting it somewhere
+you probably want to start using it. If you want to just view it like a website
+then just navigate to the index page. If you want to use this in your own 
+script or program then it's very easy to get the info. Here is an example
+to get the current days timetable then to get the second sessions class
+```
+>>> import requests
+>>> headers = {"username": username}
+>>> # Or if you want to update the database has well
+>>> headers = {"username": username, "password": password, "update":"True"}
+>>> url = "yoururl/list"
+>>> r = requests.post(url=url, headers=headers)
+>>> json = r.json()
+>>> session2 = json[2]
+>>> print(session2["class"]
+
+```
+
 Current options
 ---
 
-##### /(user)/(password)/list
-Display a basic list where it just displays the timetable
-
-
-##### /(user)/(password)/extralist
+##### /list 
 Displays more info then the basic list, It displays timetable, 
 classroom, teacher, time
 
-##### /(user)/(password)/list/(day)
+##### /list/(day)
 Displays a basic list but for a certain day
 
 ##### /

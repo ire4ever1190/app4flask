@@ -35,8 +35,10 @@ def show_info():
 # This return a json list of a certain day e.g. /list/0 gives you the list of monday
 @app.route('/list/<day>', methods=['POST'])
 def show_info_certain_day(day):
-        username = request.headers.get('username')
-        password = request.headers.get('password')
+        username = str(request.headers.get('username'))
+        if request.headers.get('update') == 'True':
+                password = str(request.headers.get('password'))
+                data.update(username, password)
         try:
                 classes = []
                 # Makes a json list of all the days
