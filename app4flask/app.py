@@ -33,7 +33,7 @@ def show_info():
         # if there not in the database this except gets raised and updates the timetable
         except datahandler.mechanicalsoup.LinkNotFoundError:
                 data.update(username, password)
-                return show_info(username, password)
+                return show_info()
 
 
 # This return a json list of a certain day e.g. /list/0 gives you the list of monday
@@ -55,11 +55,11 @@ def show_info_certain_day(day):
         # if there not in the database this except gets raised and updates the timetable
         except datahandler.mechanicalsoup.LinkNotFoundError:
                 data.update(username, password)
-                return show_info(username, password)
+                return show_info()
 
 
 # This doesn't need a route. It is only used by the index route
-def show_webapp(student_num, password):
+def show_webapp(student_num, password=None):
         try:
                 # Gets the day of the week has a int e.g. Monday = 0, Tuesday = 1
                 today = datetime.datetime.today().weekday()
@@ -102,13 +102,12 @@ def index():
                 if form.remember.data == True:
                         response = make_response(show_webapp(form.username.data, form.password.data))
                         response.set_cookie('student_num', form.username.data, max_age=60*60*24*92)
-                        response.set_cookie('password', form.password.data, max_age=60*60*24*92)
                         return response
 
 
                 # When they press submit then there shown there timetable
                 if form.validate_on_submit():
-                        return show_webapp(form.username.data, form.password.data)
+                        return show_webapp(form.username.data, password=form.password.data)
 
                 return render_template('Login.html', form=form)
         else:
