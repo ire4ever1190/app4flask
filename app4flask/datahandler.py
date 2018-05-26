@@ -20,6 +20,7 @@ class main():
                         br["txtLoginPassword"] = password
                         br.submit_selected()
                         br.open(url + str("portal/timetable.php"))
+
                         classes = br.get_current_page().find_all('td', {"width": '18%'})
                         # timetable_list, room_list, teacher_list, time_list = []
                         room_list = []
@@ -30,6 +31,7 @@ class main():
                         for i in classes:
                                 classes = i.find_all('span', {"class": "ttsub"})
                                 extrainfo = i.find_all('span', {"class": "ttname"})
+
                                 for ii in classes:
                                         timetable_list.append(ii.text.strip())
                                 for iii in extrainfo:
@@ -50,13 +52,14 @@ class main():
                                                 teacher_list.append(" ")
                                                 time_list.append(" ")
 
-
                         # use start and end to break the the main into into smaller lists of days
                         def daylist(start, end, timetablelist, roomlist, teacherlist, timelist):
+
                                 daytimetable_list = []
                                 dayroom_list = []
                                 dayteacher_list = []
                                 daytime_list = []
+
                                 for i in range(start, end):
                                         daytimetable_list.append(timetablelist[i])
                                         dayroom_list.append(roomlist[i])
@@ -66,15 +69,17 @@ class main():
 
                         # insert data into database
                         def inset(start, end, dayid, user, timetable_list, room_list, teacher_list, time_list):
+
                                 session = 1
-                                classes, rooms, teachers, times = daylist(start, end, timetable_list, room_list, teacher_list,
-                                                                          time_list)
+                                classes, rooms, teachers, times = daylist(start, end, timetable_list, room_list, teacher_list, time_list)
 
                                 for clas, room, teacher, time in (zip(classes, rooms, teachers, times)):
+
                                         clas = str(clas)
                                         room = str(room)
                                         teacher = str(teacher)
                                         time = str(time)
+
                                         tinydb.insert(
                                                 {'Day': dayid, 'Session': session, 'class': clas, "user": user,
                                                  "time": time,
@@ -88,22 +93,26 @@ class main():
                         # add classes to database
 
                         while dayid <= 10:
+
                                 inset(start, end, dayid, user, timetable_list, room_list, teacher_list, time_list)
                                 dayid += 1
                                 start += 9
                                 end += 9
 
                         print("database updated")
+
                 except TypeError:
                         print("connection unreliable, please try again later")
                         pass
 
         # This turns
         def getjson(self, day, session, user):
+
                 jsonstr = tinydb.get((where('Day') == day) & (where('Session') == session) & (where('user') == user))
                 return jsonstr
 
         def get(self, day, session, user, item):
+
                 jsonstr = tinydb.get((where('Day') == day) & (where('Session') == session) & (where('user') == user))
                 parse = jsonstr[item]
                 return parse
