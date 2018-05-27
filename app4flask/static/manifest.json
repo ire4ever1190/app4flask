@@ -2,15 +2,16 @@
  "name": "APP4 Timetable",
  "short_name": "app4",
  "lang":"en-US",
- "background-color": "#ffffff",
- "theme-color": "#ffffff",
+ "background_color": "#ffffff",
+ "theme_color": "#ffffff",
  "icons": [
   {
-   "src": "/icons.ico",
+   "src": "/static/icons.ico",
    "sizes": "256x256",
    "type": "image/png"
   }
  ],
   "display": "standalone",
-  "orientation": "landscape"
+  "orientation": "landscape",
+  "start_url": "/"
 }

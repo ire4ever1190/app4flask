@@ -2,6 +2,7 @@ import os
 import re
 import mechanicalsoup
 from tinydb import TinyDB, where
+import json
 
 tinydb = TinyDB('./db.json')
 school = str(os.environ["school"])
@@ -18,6 +19,7 @@ class main():
                         br.select_form(nr=0)
                         br["txtLoginUserID"] = user
                         br["txtLoginPassword"] = password
+                        print(user, password)
                         br.submit_selected()
                         br.open(url + str("portal/timetable.php"))
 
@@ -51,9 +53,9 @@ class main():
                                                 room_list.append("Outside")
                                                 teacher_list.append(" ")
                                                 time_list.append(" ")
-
+                        print(room_list,timetable_list, time_list, teacher_list)
                         # use start and end to break the the main into into smaller lists of days
-                        def daylist(start, end, timetablelist, roomlist, teacherlist, timelist):
+                        def daylist(start, end):
 
                                 daytimetable_list = []
                                 dayroom_list = []
@@ -61,17 +63,17 @@ class main():
                                 daytime_list = []
 
                                 for i in range(start, end):
-                                        daytimetable_list.append(timetablelist[i])
-                                        dayroom_list.append(roomlist[i])
-                                        dayteacher_list.append(teacherlist[i])
-                                        daytime_list.append(timelist[i])
+                                        daytimetable_list.append(timetable_list[i])
+                                        dayroom_list.append(room_list[i])
+                                        dayteacher_list.append(teacher_list[i])
+                                        daytime_list.append(time_list[i])
                                 return daytimetable_list, dayroom_list, dayteacher_list, daytime_list
 
                         # insert data into database
-                        def inset(start, end, dayid, user, timetable_list, room_list, teacher_list, time_list):
+                        def inset(start, end, dayid, user):
 
                                 session = 1
-                                classes, rooms, teachers, times = daylist(start, end, timetable_list, room_list, teacher_list, time_list)
+                                classes, rooms, teachers, times = daylist(start, end)
 
                                 for clas, room, teacher, time in (zip(classes, rooms, teachers, times)):
 
@@ -80,10 +82,12 @@ class main():
                                         teacher = str(teacher)
                                         time = str(time)
 
-                                        tinydb.insert(
-                                                {'Day': dayid, 'Session': session, 'class': clas, "user": user,
-                                                 "time": time,
-                                                 "room": room, "teacher": teacher})
+                                        tinydb.insert({'Day': dayid, 'Session': session, 'User': user, 'Info':{
+                                                'Class': clas,
+                                                 'Time': time,
+                                                 'Room': room,
+                                                 'Teacher': teacher}
+                                                })
 
                                         session += 1
 
@@ -94,7 +98,7 @@ class main():
 
                         while dayid <= 10:
 
-                                inset(start, end, dayid, user, timetable_list, room_list, teacher_list, time_list)
+                                inset(start, end, dayid, user)
                                 dayid += 1
                                 start += 9
                                 end += 9
@@ -108,11 +112,11 @@ class main():
         # This turns
         def getjson(self, day, session, user):
 
-                jsonstr = tinydb.get((where('Day') == day) & (where('Session') == session) & (where('user') == user))
+                jsonstr = tinydb.get((where('Day') == day) & (where('Session') == session) & (where('User') == user))
+                print(jsonstr)
                 return jsonstr
 
         def get(self, day, session, user, item):
-
-                jsonstr = tinydb.get((where('Day') == day) & (where('Session') == session) & (where('user') == user))
-                parse = jsonstr[item]
+                jsonstr = tinydb.get((where('Day') == day) & (where('Session') == session) & (where('User') == user))
+                parse = jsonstr["Info"][item]
                 return parse

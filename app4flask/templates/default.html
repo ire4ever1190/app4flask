@@ -1,28 +1,17 @@
 <html lang="en">
 <head>
     <title>{{ user }}'s Timetable</title>
-    <link rel="icon" type="image/png" sizes="192x192" href="/app4flask/static/icons.ico">
-    <link rel="manifest" href="/app4flask/static/manifest.json">
+    <link rel="icon" type="image/png" sizes="192x192" href="/icons.ico">
+    <link rel="manifest" href="/static/manifest.json">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#0B6623">
+    <meta name="theme-color" content="#ffffffxddd"/>
+    <meta name="Description" content="Displays your app4 timetable and can  be downloaded has an app.">
 </head>
 <body>
 <!-- Gets the data and displays it -->
 <!-- This is a work in progress -->
-<script>
-var xhttp = new XMLHttpRequest();
-xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-       // Typical action to be performed when the document is ready:
-       document.getElementById("demo").innerHTML = xhttp.responseText;
-    }
-};
-xhttp.setRequestHeader("username", value)
-xhttp.setRequestHeader("password", value)
-xhttp.open("POST", "filename", true);
-xhttp.send();
-}</script>
+<script src="/static/timetableUpdater.js"></script>
 
 
 <style>
@@ -49,21 +38,25 @@ class {
   font-family: inherit;
 }
 h1 {
-  grid-column: 2
+  grid-column: 2;
 }
 h3 {
-  grid-column: 2
+  grid-column: 2;
 }
+    day {
+        grid-column: 2;
+    }
 </style>
 <h1>{{ user }}'s Timetable</h1>
 <br>
-<h3>Day {{ day }}</h3>
+<h3>Day</h3>
+<day>Foo Day</day>
 
 {{ content }}
     <script>
 
       if('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/static/sw.js')
+        navigator.serviceWorker.register('/sw.js')
           .then(function() {
                 console.log('Service Worker Registered');
           });

@@ -1,10 +1,11 @@
-from flask import Flask, render_template, Markup, request, make_response
 import datetime
-import datahandler
-import Forms
-from flask import jsonify
-from config import Config
 
+from flask import Flask, render_template, Markup, request, make_response, json
+from flask import jsonify
+
+import Forms
+import datahandler
+from config import Config
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -22,17 +23,21 @@ def show_info():
         try:
                 # Gets the day of the week has a int e.g. Monday = 0, Tuesday = 1
                 today = datetime.datetime.today().weekday()
-                classes = []
+                classes = [{'day': today}]
                 # Makes a json list of all the classes of the day
 
                 for i in range(1, 10):
-                                classes.append(data.getjson(today,i,username))
-                print(classes)
-
+                                # classes.append(data.getjson(today, i, username))
+                                classes[0]["session" + str(i)] = data.getjson(today, i, username)
+                response = app.response_class(
+                        response=json.dumps(classes),
+                        status=200,
+                        mimetype='application/json'
+                )
                 return jsonify(classes)
         # if there not in the database this except gets raised and updates the timetable
-        except datahandler.mechanicalsoup.LinkNotFoundError:
-                data.update(username, password)
+        except NameError:
+                data.update(username)
                 return show_info()
 
 
@@ -50,10 +55,14 @@ def show_info_certain_day(day):
                 # Makes a json list of all the days
                 for session in range(1, 10):
                                 classes.append(data.getjson(day, session, username))
-
-                return jsonify(classes)
+                response = app.response_class(
+                        response=json.dumps(classes),
+                        status=200,
+                        mimetype='application/json'
+                )
+                return response
         # if there not in the database this except gets raised and updates the timetable
-        except datahandler.mechanicalsoup.LinkNotFoundError:
+        except TypeError:
                 data.update(username, password)
                 return show_info()
 
@@ -65,13 +74,13 @@ def show_webapp(student_num, password=None):
                 today = datetime.datetime.today().weekday()
                 today += 1
                 classes = []
-                items = ["class", "time", "teacher", "room"]
+                items = ["Class", "Time", "Teacher", "Room"]
 
 
                 for session in range(1, 10):
                         for x in items:
-                                # Formats the info into tags e.g. <teacher> #Teacher name# </teacher>
-                                info = "<{}>{}</{}>".format(x, data.get(today, session, student_num, x), x)
+                                # Formats the info into tags e.g. <teacher> #Teacher name# </teacher>  data.get(today, session, student_num, x)
+                                info = "<{}> Foo </{}>".format(x, x)
                                 classes.append(info)
 
                 timetablefordaylist = ''.join(classes)
@@ -81,7 +90,7 @@ def show_webapp(student_num, password=None):
                 return render_template('default.html',
                                         user=student_num,
                                         content=timetablehtml,
-                                        day=today)
+                                        )
         # if there not in the database this except gets raised and updates the timetable
         except TypeError:
                 data.update(student_num, password)
@@ -107,16 +116,20 @@ def index():
 
                 # When they press submit then there shown there timetable
                 if form.validate_on_submit():
-                        return show_webapp(form.username.data, password=form.password.data)
+                        return show_webapp(form.username.data, form.password.data)
 
                 return render_template('Login.html', form=form)
         else:
-                return show_webapp(request.cookies.get('student_num'), request.cookies.get('password'))
+                return show_webapp(request.cookies.get('student_num'), "3003200337161")
 
+
+@app.route('/icons.ico')
+def giveicon():
+        return app.send_static_file('icons.ico')
 
 
 @app.route('/sw.js')
-def showsw():
+def givesw():
         return app.send_static_file('sw.js')
 
 

@@ -4,3 +4,4 @@ db.json
 .tox
 .pytest_cache
 _pycache_
+app4flask/db.json
