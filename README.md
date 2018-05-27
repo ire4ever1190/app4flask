@@ -40,8 +40,7 @@ to get the current days timetable then to get the second sessions class
 >>> url = "yoururl/list"
 >>> r = requests.post(url=url, headers=headers)
 >>> json = r.json()
->>> session2 = json[2]
->>> print(session2["class"]
+>>> print(json[2]['class'])
 
 ```
 
