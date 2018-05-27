@@ -117,7 +117,6 @@ def index():
 def giveicon():
         return app.send_static_file('icons.ico')
 
-@app.route('app4flask')
 
 @app.route('/sw.js')
 def givesw():
