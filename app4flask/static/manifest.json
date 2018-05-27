@@ -12,6 +12,6 @@
   }
  ],
   "display": "standalone",
-  "orientation": "landscape",
+  "orientation": "any",
   "start_url": "/"
 }
