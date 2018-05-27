@@ -29,14 +29,9 @@ def show_info():
                 for i in range(1, 10):
                                 # classes.append(data.getjson(today, i, username))
                                 classes[0]["session" + str(i)] = data.getjson(today, i, username)
-                response = app.response_class(
-                        response=json.dumps(classes),
-                        status=200,
-                        mimetype='application/json'
-                )
                 return jsonify(classes)
         # if there not in the database this except gets raised and updates the timetable
-        except NameError:
+        except TypeError:
                 data.update(username)
                 return show_info()
 
@@ -55,12 +50,7 @@ def show_info_certain_day(day):
                 # Makes a json list of all the days
                 for session in range(1, 10):
                                 classes.append(data.getjson(day, session, username))
-                response = app.response_class(
-                        response=json.dumps(classes),
-                        status=200,
-                        mimetype='application/json'
-                )
-                return response
+                return jsonify(classes)
         # if there not in the database this except gets raised and updates the timetable
         except TypeError:
                 data.update(username, password)
@@ -127,6 +117,7 @@ def index():
 def giveicon():
         return app.send_static_file('icons.ico')
 
+@app.route('app4flask')
 
 @app.route('/sw.js')
 def givesw():
