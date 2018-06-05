@@ -12,9 +12,10 @@ app.config.from_object(Config)
 data = datahandler.main()
 
 
-# This returns a json list of the current day
+# This returns a json list of the current day or if the day is passed in the url then it returns that
+@app.route('/list/<day>', methods=['POST'])
 @app.route('/list', methods=['POST'])
-def show_info():
+def show_info(day=None):
         username = str(request.headers.get('username'))
         if request.headers.get('update') == 'True':
                 password = str(request.headers.get('password'))
@@ -22,7 +23,10 @@ def show_info():
 
         try:
                 # Gets the day of the week has a int e.g. Monday = 0, Tuesday = 1
-                today = datetime.datetime.today().weekday()
+                if day != None:
+                        today = day
+                else:
+                        today = datetime.datetime.today().weekday()
                 classes = [{'day': today}]
                 # Makes a json list of all the classes of the day
 
@@ -33,27 +37,6 @@ def show_info():
         # if there not in the database this except gets raised and updates the timetable
         except TypeError:
                 data.update(username)
-                return show_info()
-
-
-# This return a json list of a certain day e.g. /list/0 gives you the list of monday
-@app.route('/list/<day>', methods=['POST'])
-def show_info_certain_day(day):
-        username = str(request.headers.get('username'))
-
-        if request.headers.get('update') == 'True':
-                password = str(request.headers.get('password'))
-                data.update(username, password)
-
-        try:
-                classes = []
-                # Makes a json list of all the days
-                for session in range(1, 10):
-                                classes.append(data.getjson(day, session, username))
-                return jsonify(classes)
-        # if there not in the database this except gets raised and updates the timetable
-        except TypeError:
-                data.update(username, password)
                 return show_info()
 
 
