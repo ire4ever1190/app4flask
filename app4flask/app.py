@@ -22,16 +22,16 @@ def show_info(day=None):
                 data.update(username, password)
 
         try:
-                # Gets the day of the week has a int e.g. Monday = 0, Tuesday = 1
+                #Has the day been passed or has not the day been passed that is the question
                 if day != None:
                         today = day
                 else:
+                        # Gets the day of the week has a int e.g. Monday = 0, Tuesday = 1
                         today = datetime.datetime.today().weekday()
                 classes = [{'day': today}]
-                # Makes a json list of all the classes of the day
-
+                
+                # Gets json from database and creates the JSON that will be returned
                 for i in range(1, 10):
-                                # classes.append(data.getjson(today, i, username))
                                 classes[0]["session" + str(i)] = data.getjson(today, i, username)
                 return jsonify(classes)
         # if there not in the database this except gets raised and updates the timetable
@@ -110,4 +110,4 @@ if __name__ == '__main__':
         app.run()
 
 
-# TODO fix week2 issue??? it's kind of working
+# TODO fix week2 issue??? it's kind of working but I'm working on finding out how app4 checks the week
