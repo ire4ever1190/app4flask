@@ -31,7 +31,7 @@ once you have successfully installed the flask app and are hosting it somewhere
 you probably want to start using it. If you want to just view it like a website
 then just navigate to the index page. If you want to use this in your own 
 script or program then it's very easy to get the info. Here is an example
-to get the current days timetable then to get the second sessions class
+to get the current days timetable then to get the first sessions class
 ```
 >>> import requests
 >>> headers = {"username": username}
@@ -40,7 +40,7 @@ to get the current days timetable then to get the second sessions class
 >>> url = "yoururl/list"
 >>> r = requests.post(url=url, headers=headers)
 >>> json = r.json()
->>> print(json[2]['class'])
+>>> print(json[0]["session1"]["info"]["class"])
 
 ```
 
