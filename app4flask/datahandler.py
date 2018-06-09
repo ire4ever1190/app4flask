@@ -19,7 +19,6 @@ class main():
                         br.select_form(nr=0)
                         br["txtLoginUserID"] = user
                         br["txtLoginPassword"] = password
-                        print(user, password)
                         br.submit_selected()
                         br.open(url + str("portal/timetable.php"))
 
@@ -53,7 +52,7 @@ class main():
                                                 room_list.append("Outside")
                                                 teacher_list.append(" ")
                                                 time_list.append(" ")
-                        print(room_list,timetable_list, time_list, teacher_list)
+
                         # use start and end to break the the main into into smaller lists of days
                         def daylist(start, end):
 
