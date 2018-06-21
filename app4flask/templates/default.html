@@ -9,9 +9,7 @@
     <meta name="Description" content="Displays your app4 timetable and can  be downloaded has an app.">
 </head>
 <body>
-<!-- Gets the data and displays it -->
-<!-- This is a work in progress -->
-<script src="/static/timetableUpdater.js"></script>
+
 
 
 <style>
@@ -47,7 +45,10 @@ h3 {
         grid-column: 2;
     }
 </style>
-<h1 id="user">{{ user }}</h1>
+
+
+<h1>{{ user }}'s Timetable</h1>
+<p hidden id="name">{{ user }}</p>
 <br>
 <h3>Day</h3>
 <day>Foo Day</day>
@@ -63,6 +64,9 @@ h3 {
       }
 
     </script>
+<!-- Gets the data and displays it -->
+<!-- This is a work in progress -->
+<script src="/static/timetableUpdater.js"></script>
 </body>
 
 </html>

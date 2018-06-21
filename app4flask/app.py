@@ -12,48 +12,29 @@ app.config.from_object(Config)
 data = datahandler.main()
 
 
-# This returns a json list of the current day
+# This returns a json list of the current day or if the day is passed in the url then it returns that
+@app.route('/list/<today>', methods=['POST'])
+@app.route('/list/', methods=['POST'])
 @app.route('/list', methods=['POST'])
-def show_info():
+def show_info(today=datetime.datetime.today().weekday()):
+        today = int(today)
         username = str(request.headers.get('username'))
         if request.headers.get('update') == 'True':
                 password = str(request.headers.get('password'))
                 data.update(username, password)
 
         try:
-                # Gets the day of the week has a int e.g. Monday = 0, Tuesday = 1
-                today = datetime.datetime.today().weekday()
-                classes = [{'day': today}]
-                # Makes a json list of all the classes of the day
 
+                classes = [{'day': today}]
+                
+                # Gets json from database and creates the JSON that will be returned
                 for i in range(1, 10):
-                                # classes.append(data.getjson(today, i, username))
                                 classes[0]["session" + str(i)] = data.getjson(today, i, username)
+
                 return jsonify(classes)
         # if there not in the database this except gets raised and updates the timetable
         except TypeError:
                 data.update(username)
-                return show_info()
-
-
-# This return a json list of a certain day e.g. /list/0 gives you the list of monday
-@app.route('/list/<day>', methods=['POST'])
-def show_info_certain_day(day):
-        username = str(request.headers.get('username'))
-
-        if request.headers.get('update') == 'True':
-                password = str(request.headers.get('password'))
-                data.update(username, password)
-
-        try:
-                classes = []
-                # Makes a json list of all the days
-                for session in range(1, 10):
-                                classes.append(data.getjson(day, session, username))
-                return jsonify(classes)
-        # if there not in the database this except gets raised and updates the timetable
-        except TypeError:
-                data.update(username, password)
                 return show_info()
 
 
@@ -127,4 +108,4 @@ if __name__ == '__main__':
         app.run()
 
 
-# TODO fix week2 issue??? it's kind of working
+# TODO fix week2 issue??? it's kind of working but I'm working on finding out how app4 checks the week
