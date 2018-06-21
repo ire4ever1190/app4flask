@@ -57,7 +57,7 @@ def show_info_certain_day(day):
                 return show_info()
 
 
-# This doesn't need a route. It is only used by the index route
+# This doesn't need a route. It is only used by the index routegi
 def show_webapp(student_num, password=None):
         try:
                 # Gets the day of the week has a int e.g. Monday = 0, Tuesday = 1

@@ -16,6 +16,7 @@ xhttp.onreadystatechange = function() {
         var teachers = document.getElementsByTagName("Teacher");
         var rooms = document.getElementsByTagName("Room");
         var day = document.getElementsByTagName("day");
+
         day[0].innerHTML= response[0]['day'];
         for (session=1; session < 10; session++) {
              var  x = session - 1;
@@ -26,8 +27,8 @@ xhttp.onreadystatechange = function() {
 
         }
 
-    };
-};
+    }
+};var user = document.getElementById("user");
 xhttp.open("POST", "/list", true);
-xhttp.setRequestHeader("username", getCookie("student_num"));
+xhttp.setRequestHeader("username", user.innerHTML);
 xhttp.send();
