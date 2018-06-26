@@ -37,7 +37,7 @@ to get the current days timetable then to get the first sessions class
 >>> headers = {"username": username}
 >>> # Or if you want to update the database has well
 >>> headers = {"username": username, "password": password, "update":"True"}
->>> url = "yoururl/list"
+>>> url = "http://yoururl/list"
 >>> r = requests.post(url=url, headers=headers)
 >>> json = r.json()
 >>> print(json[0]["session1"]["info"]["class"])
