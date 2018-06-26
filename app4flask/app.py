@@ -1,7 +1,7 @@
 import datetime
+import pytz
 
-from flask import Flask, render_template, Markup, request, make_response, json
-from flask import jsonify
+from flask import Flask, render_template, Markup, request, make_response, jsonify
 
 import Forms
 import datahandler
@@ -16,7 +16,14 @@ data = datahandler.main()
 @app.route('/list/<today>', methods=['POST'])
 @app.route('/list/', methods=['POST'])
 @app.route('/list', methods=['POST'])
-def show_info(today=datetime.datetime.today().weekday()):
+def show_info(today=None):
+        print(request.headers.get('timezone'))
+        if today is None:
+                if request.headers.get('timezone') is None:
+                        today = datetime.datetime.now(pytz.utc).weekday()
+                else:
+                        today = datetime.datetime.now(pytz.timezone(request.headers.get('timezone'))).weekday()
+        #today = datetime.datetime.now(pytz.timezone("Australia/Sydney")).weekday()
         today = int(today)
         username = str(request.headers.get('username'))
         if request.headers.get('update') == 'True':
@@ -26,11 +33,10 @@ def show_info(today=datetime.datetime.today().weekday()):
         try:
 
                 classes = [{'day': today}]
-                
+
                 # Gets json from database and creates the JSON that will be returned
                 for i in range(1, 10):
-                                classes[0]["session" + str(i)] = data.getjson(today, i, username)
-
+                                classes[0]["session" + str(i)] = data.getjson(today, i, 37161)
                 return jsonify(classes)
         # if there not in the database this except gets raised and updates the timetable
         except TypeError:
@@ -38,60 +44,41 @@ def show_info(today=datetime.datetime.today().weekday()):
                 return show_info()
 
 
-# This doesn't need a route. It is only used by the index routegi
-def show_webapp(student_num, password=None):
-        try:
-                # Gets the day of the week has a int e.g. Monday = 0, Tuesday = 1
-                today = datetime.datetime.today().weekday()
-                today += 1
-                classes = []
-                items = ["Class", "Time", "Teacher", "Room"]
-
-
-                for session in range(1, 10):
-                        for x in items:
-                                # Formats the info into tags e.g. <teacher> #Teacher name# </teacher>  data.get(today, session, student_num, x)
-                                info = "<{}> Foo </{}>".format(x, x)
-                                classes.append(info)
-
-                timetablefordaylist = ''.join(classes)
-                timetablehtml = Markup(timetablefordaylist)
-
-                # Return the template with variables
-                return render_template('default.html',
+# This doesn't need a route. It is only used by the index route
+def show_html(student_num):
+                        return render_template('default.html',
                                         user=student_num,
-                                        content=timetablehtml,
                                         )
-        # if there not in the database this except gets raised and updates the timetable
-        except TypeError:
-                data.update(student_num, password)
-                return show_webapp()
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/login')
+@app.route('/')
 def index():
         # This is the index page. It shows a form asking for username and password and if the person wants to update
         # there timetable / Remember them
-        if not request.cookies.get('student_num'):
+        print(request.cookies.get('student_num'))
+        print(request.method)
+        if request.method == "POST":
                 form = Forms.LoginForm(request.form)
-                # If they clicked update timetable this is called
-                if form.update.data == True:
+                if form.update.data is True:
+                        form = Forms.LoginForm(request.form)
                         data.update(form.username.data, form.password.data)
+                        return show_html(form.username.data)
 
                 # If they clicked remember me then cookies are made
-                if form.remember.data == True:
-                        response = make_response(show_webapp(form.username.data, form.password.data))
-                        response.set_cookie('student_num', form.username.data, max_age=60*60*24*92)
+                if form.remember.data is True:
+                        response = make_response(show_html(form.username.data))
+                        response.set_cookie('student_num', form.username.data, max_age=60 * 60 * 24 * 92)
                         return response
 
-
                 # When they press submit then there shown there timetable
-                if form.validate_on_submit():
-                        return show_webapp(form.username.data, form.password.data)
 
-                return render_template('Login.html', form=form)
-        else:
-                return show_webapp(request.cookies.get('student_num'), "3003200337161")
+                return show_html(form.username.data)
+        elif request.method == "GET":
+                if request.cookies.get('student_num') != None:
+                        return show_html(request.cookies.get('student_num'))
+
+
 
 
 @app.route('/icons.ico')

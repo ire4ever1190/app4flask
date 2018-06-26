@@ -3,4 +3,5 @@ mechanicalsoup
 flask
 tinydb
 flask-wtf
+pytz
 wtforms

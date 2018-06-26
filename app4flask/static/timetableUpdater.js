@@ -1,12 +1,5 @@
 var xhttp = new XMLHttpRequest();
 
-  function getCookie(name)
-  {
-    var re = new RegExp(name + "=([^;]+)");
-    var value = re.exec(document.cookie);
-    return (value != null) ? unescape(value[1]) : null;
-  }
-
 xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
         var session;
@@ -30,8 +23,8 @@ xhttp.onreadystatechange = function() {
     }
 }
 xhttp.open("POST", "/list", true);
-    // Not the best way of doing it but it works
+  // Not the best way of doing it but it works
 var username = document.getElementById("name");
 xhttp.setRequestHeader("username", document.getElementById("name").innerHTML);
-    //xhttp.setRequestHeader("username", getCookie("student_num"));
+xhttp.setRequestHeader("timezone", Intl.DateTimeFormat().resolvedOptions().timeZone);
 xhttp.send();
