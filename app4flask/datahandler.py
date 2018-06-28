@@ -81,12 +81,18 @@ class main():
                                         teacher = str(teacher)
                                         time = str(time)
 
-                                        tinydb.insert({'Day': dayid, 'Session': session, 'User': user, 'Info':{
+                                        #tinydb.insert({'Day': dayid, 'Session': session, 'User': user, 'Info':{
+                                        #        'Class': clas,
+                                        #         'Time': time,
+                                        #         'Room': room,
+                                        #         'Teacher': teacher}
+                                        #        })
+                                        tinydb.upsert({'Day': dayid, 'Session': session, 'User': user, 'Info':{
                                                 'Class': clas,
                                                  'Time': time,
                                                  'Room': room,
                                                  'Teacher': teacher}
-                                                })
+                                                }, (where('Day') == dayid) & (where('Session') == session) & (where('User') == str(user)))
 
                                         session += 1
 

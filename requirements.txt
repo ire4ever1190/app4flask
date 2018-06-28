@@ -5,3 +5,4 @@ tinydb
 flask-wtf
 pytz
 wtforms
+

@@ -6,3 +6,4 @@ flask-wtf
 pytz
 wtforms
 tox
+pytest
