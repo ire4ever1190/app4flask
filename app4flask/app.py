@@ -35,11 +35,11 @@ def show_info(today=None):
 
                 # Gets json from database and creates the JSON that will be returned
                 for i in range(1, 10):
-                                classes[0]["session" + str(i)] = data.getjson(today, i, 37161)
+                                classes[0]["session" + str(i)] = data.get_json(today, i, 37161)
                 return jsonify(classes)
         # if there not in the database this except gets raised and updates the timetable
         except TypeError:
-                data.update(username)
+                data.update(username, password)
                 return show_info()
 
 
@@ -52,28 +52,45 @@ def show_html(student_num):
 
 @app.route('/login')
 @app.route('/')
+@app.route('/')
 def index():
         # This is the index page. It shows a form asking for username and password and if the person wants to update
         # there timetable / Remember them
         print(request.cookies.get('student_num'))
         print(request.method)
-        if request.method == "POST":
-                form = Forms.LoginForm(request.form)
-                if form.update.data is True:
-                        form = Forms.LoginForm(request.form)
-                        data.update(form.username.data, form.password.data)
-                        return show_html(form.username.data)
+        form = Forms.LoginForm(request.form)
+        if form.validate_on_submit():
+                def update_data(username, password):
+                        data.update(username, password)
+                        return show_html(username)
 
-                # If they clicked remember me then cookies are made that last 6 months I think
-                if form.remember.data is True:
-                        response = make_response(show_html(form.username.data))
-                        response.set_cookie('student_num', form.username.data, max_age=60 * 60 * 24 * 92)
+                def remember_data(username):
+                        response = make_response(show_html(username))
+                        response.set_cookie('student_num', username, max_age=60 * 60 * 24 * 92)
                         return response
 
-                return show_html(form.username.data)
-        elif request.method == "GET":
-                if request.cookies.get('student_num') != None:
+                # This make checks to see what buttons where clicked
+                if form.update.data is True and form.remember.data is False:
+                        update_data(form.username.data, form.password.data)
+
+                elif form.update.data is False and form.remember.data is True:
+                        remember_data(form.remember.data)
+
+                elif form.remember.data is True and form.update.data is True:
+                        update_data(form.username.data, form.password.data)
+                        remember_data(form.remember.data)
+
+                else:
+                        return show_html(form.username.data)
+        else:
+                if request.cookies.get('student_num') is not None:
+                        print("your here")
                         return show_html(request.cookies.get('student_num'))
+                else:
+                        form = Forms.LoginForm()
+                        return render_template('Login.html',
+                                                form=form
+                                                )
 
 
 

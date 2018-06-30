@@ -54,7 +54,7 @@ class main():
                                                 time_list.append(" ")
 
                         # use start and end to break the the main into into smaller lists of days
-                        def daylist(start, end):
+                        def day_list(start, end):
 
                                 daytimetable_list = []
                                 dayroom_list = []
@@ -72,7 +72,7 @@ class main():
                         def inset(start, end, dayid, user):
 
                                 session = 1
-                                classes, rooms, teachers, times = daylist(start, end)
+                                classes, rooms, teachers, times = day_list(start, end)
 
                                 for clas, room, teacher, time in (zip(classes, rooms, teachers, times)):
 
@@ -110,7 +110,7 @@ class main():
                         pass
 
         # This returns pure json from database
-        def getjson(self, day, session, user):
+        def get_json(self, day, session, user):
                 return tinydb.get((where('Day') == day) & (where('Session') == session) & (where('User') == str(user)))
 
         # This returns structured specific data from database

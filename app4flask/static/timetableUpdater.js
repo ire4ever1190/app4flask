@@ -8,9 +8,9 @@ xhttp.onreadystatechange = function() {
         var times = document.getElementsByTagName("Time");
         var teachers = document.getElementsByTagName("Teacher");
         var rooms = document.getElementsByTagName("Room");
-        var day = document.getElementsByTagName("day");
+        var day = document.getElementById("day");
 
-        day[0].innerHTML = response[0]['day'];
+        day.innerHTML = "Day " + response[0]['day'];
         for (session = 1; session < 10; session++) {
             var x = session - 1;
             classes[x].innerHTML = response[0]['session' + session]['Info']['Class'];
