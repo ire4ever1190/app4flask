@@ -3,8 +3,6 @@ before_script:
 
 flask-start:
   script:
-    - wget https://bootstrap.pypa.io/get-pip.py
-    - ./pypy get-pip.py
     - python -m pip install -r requirements.txt
     - python app4flask/app.py &
     - python2 -m pip install tox
