@@ -1,5 +1,5 @@
 before_script:
-  - apt-get update -qq && apt-get install -y -qq python python-dev python3 python3-dev pypy
+  - apt-get update -qq && apt-get install -y -qq python python-dev python3 python3-dev pypy pypy-pip python3-pip python2-pip
   - pypy -m pip install -r requirements.txt
   - python2 -m pip install tox
   - python3 -m pip install tox
