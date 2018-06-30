@@ -7,9 +7,7 @@ flask-start:
     - ./pypy get-pip.py
     - python -m pip install -r requirements.txt
     - python app4flask/app.py &
-
-flask-test:
-  script:
     - python2 -m pip install tox
     - python3 -m pip install tox
     - tox
+
