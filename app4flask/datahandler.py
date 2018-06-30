@@ -12,9 +12,9 @@ class main():
         def update(self, user, password):
                 try:
                         print("update starting")
-                        br = mechanicalsoup.StatefulBrowser(user_agent='Timetable scraping Bot: https://github.com/ire4ever1190/app4flask')
                         url = "http://{}.app4.ws/".format(school)
 
+                        br = mechanicalsoup.StatefulBrowser(user_agent='Timetable scraping Bot: https://gitlab.com/ire4ever1190/app4flask')
                         br.open(url)
                         br.select_form(nr=0)
                         br["txtLoginUserID"] = user
@@ -23,22 +23,22 @@ class main():
                         br.open(url + str("portal/timetable.php"))
 
                         classes = br.get_current_page().find_all('td', {"width": '18%'})
-                        # timetable_list, room_list, teacher_list, time_list = []
+
                         room_list = []
                         teacher_list = []
                         time_list = []
                         timetable_list = []
                         # find the tag holding the classes and get the text
-                        for i in classes:
-                                classes = i.find_all('span', {"class": "ttsub"})
-                                extrainfo = i.find_all('span', {"class": "ttname"})
+                        for classeshtml in classes:
+                                classes = classeshtml.find_all('span', {"class": "ttsub"})
+                                extrainfo = classeshtml.find_all('span', {"class": "ttname"})
 
-                                for ii in classes:
-                                        timetable_list.append(ii.text.strip())
-                                for iii in extrainfo:
+                                for i in classes:
+                                        timetable_list.append(i.text.strip())
+                                for i in extrainfo:
                                         # Find things such has teacher names, times and rooms using regex
                                         try:
-                                                search = str(iii)
+                                                search = str(i)
                                                 room = re.search(r'([A-Z])\w+\d', search)
                                                 room_list.append(room.group())
 
@@ -81,12 +81,7 @@ class main():
                                         teacher = str(teacher)
                                         time = str(time)
 
-                                        #tinydb.insert({'Day': dayid, 'Session': session, 'User': user, 'Info':{
-                                        #        'Class': clas,
-                                        #         'Time': time,
-                                        #         'Room': room,
-                                        #         'Teacher': teacher}
-                                        #        })
+                                        # Upsert means that if its there it will update it but if its not then it will create it
                                         tinydb.upsert({'Day': dayid, 'Session': session, 'User': user, 'Info':{
                                                 'Class': clas,
                                                  'Time': time,

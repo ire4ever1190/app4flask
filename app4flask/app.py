@@ -23,7 +23,6 @@ def show_info(today=None):
                         today = datetime.datetime.now(pytz.utc).weekday()
                 else:
                         today = datetime.datetime.now(pytz.timezone(request.headers.get('timezone'))).weekday()
-        #today = datetime.datetime.now(pytz.timezone("Australia/Sydney")).weekday()
         today = int(today)
         username = str(request.headers.get('username'))
         if request.headers.get('update') == 'True':
@@ -65,13 +64,11 @@ def index():
                         data.update(form.username.data, form.password.data)
                         return show_html(form.username.data)
 
-                # If they clicked remember me then cookies are made
+                # If they clicked remember me then cookies are made that last 6 months I think
                 if form.remember.data is True:
                         response = make_response(show_html(form.username.data))
                         response.set_cookie('student_num', form.username.data, max_age=60 * 60 * 24 * 92)
                         return response
-
-                # When they press submit then there shown there timetable
 
                 return show_html(form.username.data)
         elif request.method == "GET":
