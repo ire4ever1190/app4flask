@@ -50,14 +50,11 @@ def show_html(student_num):
                                         )
 
 
-@app.route('/login')
-@app.route('/')
-@app.route('/')
+@app.route('/login', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def index():
         # This is the index page. It shows a form asking for username and password and if the person wants to update
         # there timetable / Remember them
-        print(request.cookies.get('student_num'))
-        print(request.method)
         form = Forms.LoginForm(request.form)
         if form.validate_on_submit():
                 def update_data(username, password):
@@ -65,7 +62,8 @@ def index():
                         return show_html(username)
 
                 def remember_data(username):
-                        response = make_response(show_html(username))
+                        print("your here")
+                        response = make_response(render_template('default.html', user=str(username)))
                         response.set_cookie('student_num', username, max_age=60 * 60 * 24 * 92)
                         return response
 
@@ -74,7 +72,8 @@ def index():
                         update_data(form.username.data, form.password.data)
 
                 elif form.update.data is False and form.remember.data is True:
-                        remember_data(form.remember.data)
+                        print(form.username.data)
+                        remember_data(form.username.data)
 
                 elif form.remember.data is True and form.update.data is True:
                         update_data(form.username.data, form.password.data)
@@ -85,7 +84,8 @@ def index():
         else:
                 if request.cookies.get('student_num') is not None:
                         print("your here")
-                        return show_html(request.cookies.get('student_num'))
+                        username = request.cookies.get('student_num')
+                        return "Hello"
                 else:
                         form = Forms.LoginForm()
                         return render_template('Login.html',
