@@ -1,7 +1,8 @@
 import datetime
 import pytz
 
-from flask import Flask, render_template, Markup, request, make_response, jsonify
+from flask import Flask
+from flask import render_template, request, make_response, jsonify
 
 import Forms
 import datahandler
@@ -12,7 +13,8 @@ app.config.from_object(Config)
 data = datahandler.main()
 
 
-# This returns a json list of the current day or if the day is passed in the url then it returns that
+# This returns a json list of the current day
+# or if the day is passed in the url then it returns that
 @app.route('/list/<today>', methods=['POST'])
 @app.route('/list/', methods=['POST'])
 @app.route('/list', methods=['POST'])
@@ -22,25 +24,27 @@ def show_info(today=None):
                 if request.headers.get('timezone') is None:
                         today = datetime.datetime.now(pytz.utc).weekday()
                 else:
-                        today = datetime.datetime.now(pytz.timezone(request.headers.get('timezone'))).weekday()
+                        timezone = pytz.timezone(request.headers.get('timezone'))
+                        today = datetime.datetime.now(timezone).weekday()
         today = int(today)
-        username = str(request.headers.get('username'))
+        today += 1
+        student_num = str(request.headers.get('student_num'))
         if request.headers.get('update') == 'True':
                 password = str(request.headers.get('password'))
-                data.update(username, password)
+                data.update(student_num, password)
 
         try:
 
                 classes = [{'day': today}]
 
-                # Gets json from database and creates the JSON that will be returned
+                        # Gets json from database and creates the JSON that will be returned
                 for i in range(1, 10):
-                                classes[0]["session" + str(i)] = data.get_json(today, i, 37161)
+                        classes[0]["session" + str(i)] = data.get_json(today, i, 37161)
                 return jsonify(classes)
         # if there not in the database this except gets raised and updates the timetable
         except TypeError:
-                data.update(username, password)
-                return show_info()
+                data.update(student_num, str(request.headers.get('password')))
+                return show_html(student_num)
 
 
 # This doesn't need a route. It is only used by the index route
@@ -53,18 +57,17 @@ def show_html(student_num):
 @app.route('/login', methods=['GET', 'POST'])
 @app.route('/', methods=['GET', 'POST'])
 def index():
-        # This is the index page. It shows a form asking for username and password and if the person wants to update
-        # there timetable / Remember them
+        # This is the index page. It shows a form asking for student_num and password
+        # and if the person wants to update there timetable / Remember them
         form = Forms.LoginForm(request.form)
         if form.validate_on_submit():
-                def update_data(username, password):
-                        data.update(username, password)
-                        return show_html(username)
+                def update_data(student_num, password):
+                        data.update(student_num, password)
+                        return show_html(student_num)
 
-                def remember_data(username):
-                        print("your here")
-                        response = make_response(render_template('default.html', user=str(username)))
-                        response.set_cookie('student_num', username, max_age=60 * 60 * 24 * 92)
+                def remember_data(student_num):
+                        response = make_response(show_html(student_num))
+                        response.set_cookie('student_num', student_num, max_age=60 * 60 * 24 * 92)
                         return response
 
                 # This make checks to see what buttons where clicked
@@ -84,8 +87,8 @@ def index():
         else:
                 if request.cookies.get('student_num') is not None:
                         print("your here")
-                        username = request.cookies.get('student_num')
-                        return "Hello"
+                        student_num = request.cookies.get('student_num')
+                        return show_html(student_num)
                 else:
                         form = Forms.LoginForm()
                         return render_template('Login.html',
@@ -108,5 +111,5 @@ def givesw():
 if __name__ == '__main__':
         app.run()
 
-
-# TODO fix week2 issue??? it's kind of working but I'm working on finding out how app4 checks the week
+# TODO fix week2 issue???
+# it's kind of working but I'm working on finding out how app4 checks the week

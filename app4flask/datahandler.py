@@ -2,7 +2,6 @@ import os
 import re
 import mechanicalsoup
 from tinydb import TinyDB, where
-import json
 
 tinydb = TinyDB('./db.json')
 school = str(os.environ["school"])
@@ -12,9 +11,10 @@ class main():
         def update(self, user, password):
                 try:
                         print("update starting")
-                        url = "http://{}.app4.ws/".format(school)
+                        url = "https://{}.app4.ws/".format(school)
 
                         br = mechanicalsoup.StatefulBrowser(user_agent='Timetable scraping Bot: https://gitlab.com/ire4ever1190/app4flask')
+                        br.set_verbose(2)
                         br.open(url)
                         br.select_form(nr=0)
                         br["txtLoginUserID"] = user
@@ -23,6 +23,7 @@ class main():
                         br.open(url + str("portal/timetable.php"))
 
                         classes = br.get_current_page().find_all('td', {"width": '18%'})
+
 
                         room_list = []
                         teacher_list = []
@@ -91,12 +92,12 @@ class main():
 
                                         session += 1
 
-                        dayid = 1
+                        dayid = 0
                         start = 0
                         end = 9
                         # add classes to database
 
-                        while dayid <= 10:
+                        while dayid <= 9:
 
                                 inset(start, end, dayid, user)
                                 dayid += 1
@@ -111,6 +112,7 @@ class main():
 
         # This returns pure json from database
         def get_json(self, day, session, user):
+
                 return tinydb.get((where('Day') == day) & (where('Session') == session) & (where('User') == str(user)))
 
         # This returns structured specific data from database
