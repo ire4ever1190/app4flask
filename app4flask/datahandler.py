@@ -97,10 +97,9 @@ class main():
                         end = 9
                         # add classes to database
 
-                        while dayid <= 9:
+                        for dayid in range(0, 10):
 
                                 inset(start, end, dayid, user)
-                                dayid += 1
                                 start += 9
                                 end += 9
 
