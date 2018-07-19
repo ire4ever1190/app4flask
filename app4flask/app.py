@@ -19,7 +19,6 @@ data = datahandler.main()
 @app.route('/list/', methods=['POST'])
 @app.route('/list', methods=['POST'])
 def show_info(today=None):
-        print(request.headers.get('timezone'))
         if today is None:
                 if request.headers.get('timezone') is None:
                         today = datetime.datetime.now(pytz.utc).weekday()
@@ -37,7 +36,7 @@ def show_info(today=None):
 
                 classes = [{'day': today}]
 
-                        # Gets json from database and creates the JSON that will be returned
+                # Gets json from database and creates the JSON that will be returned
                 for i in range(1, 10):
                         classes[0]["session" + str(i)] = data.get_json(today, i, 37161)
                 return jsonify(classes)
@@ -49,9 +48,9 @@ def show_info(today=None):
 
 # This doesn't need a route. It is only used by the index route
 def show_html(student_num):
-                        return render_template('default.html',
-                                        user=student_num,
-                                        )
+        return render_template('default.html',
+                               user=student_num,
+                               )
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -75,7 +74,6 @@ def index():
                         update_data(form.username.data, form.password.data)
 
                 elif form.update.data is False and form.remember.data is True:
-                        print(form.username.data)
                         remember_data(form.username.data)
 
                 elif form.remember.data is True and form.update.data is True:
@@ -86,16 +84,13 @@ def index():
                         return show_html(form.username.data)
         else:
                 if request.cookies.get('student_num') is not None:
-                        print("your here")
                         student_num = request.cookies.get('student_num')
                         return show_html(student_num)
                 else:
                         form = Forms.LoginForm()
                         return render_template('Login.html',
-                                                form=form
-                                                )
-
-
+                                               form=form
+                                               )
 
 
 @app.route('/icons.ico')
