@@ -15,9 +15,9 @@ data = datahandler.main()
 
 # This returns a json list of the current day
 # or if the day is passed in the url then it returns that
-@app.route('/list/<today>', methods=['POST'])
-@app.route('/list/', methods=['POST'])
-@app.route('/list', methods=['POST'])
+@app.route('/list/<today>', methods=['POST', 'GET'])
+@app.route('/list/', methods=['POST', 'GET'])
+@app.route('/list', methods=['POST', 'GET'])
 def show_info(today=None):
         if today is None:
                 if request.headers.get('timezone') is None:
@@ -28,9 +28,11 @@ def show_info(today=None):
         today = int(today)
         today += 1
         student_num = str(request.headers.get('student_num'))
-        if request.headers.get('update') == 'True':
+        if request.headers.get('update') == 'True' and request.method == 'POST':
                 password = str(request.headers.get('password'))
                 data.update(student_num, password)
+        elif request.headers.get('update') == 'True' and request.method == 'GET':
+                return "Please make a POST request when updating and not a GET request"
 
         try:
 
