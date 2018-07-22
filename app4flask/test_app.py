@@ -19,7 +19,7 @@ class TestApp(object):
                 url = "http://127.0.0.1:5000/list"
                 r = requests.get(url=url, headers=headers)
                 text = r.text
-                assert text != "Please make a POST request when updating and not a GET request"
+                assert text == "Please make a POST request when updating and not a GET request"
 
 
         def test_browser(self):
