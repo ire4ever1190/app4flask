@@ -26,7 +26,6 @@ def show_info(today=None):
                         timezone = pytz.timezone(request.headers.get('timezone'))
                         today = datetime.datetime.now(timezone).weekday()
         today = int(today)
-        today += 1
         student_num = str(request.headers.get('student_num'))
         if request.headers.get('update') == 'True' and request.method == 'POST':
                 password = str(request.headers.get('password'))

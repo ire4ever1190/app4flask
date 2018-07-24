@@ -1,7 +1,8 @@
 import requests
 import os
 import mechanicalsoup
-
+from tinydb import TinyDB
+tinydb = TinyDB('./db.json')
 class TestApp(object):
         def test_client_updating(self):
                 username = str(os.environ["username"])
@@ -11,7 +12,7 @@ class TestApp(object):
                 r = requests.post(url=url, headers=headers)
                 json = r.json()
                 assert json[0]["session1"]["Info"]["Class"] != None
-
+                tinydb.purge
         def test_client_updating_get(self):
                 username = str(os.environ["username"])
                 password = str(os.environ["password"])
@@ -22,7 +23,7 @@ class TestApp(object):
                 assert text == "Please make a POST request when updating and not a GET request"
 
 
-        def test_browser(self):
+        def test_browser_normal(self):
                 br = mechanicalsoup.StatefulBrowser()
                 br.open("http://127.0.0.1:5000/login")
                 br.select_form(nr=0)
