@@ -34,7 +34,7 @@ def show_info(today=None):
 
         try:
 
-                classes = [{'day': today}]
+                classes = [{'day': today + 1}]
 
                 # Gets json from database and creates the JSON that will be returned
                 for i in range(1, 10):
@@ -71,14 +71,14 @@ def index():
 
                 # This make checks to see what buttons where clicked
                 if form.update.data is True and form.remember.data is False:
-                        update_data(form.username.data, form.password.data)
+                        return update_data(form.username.data, form.password.data)
 
                 elif form.update.data is False and form.remember.data is True:
-                        remember_data(form.username.data)
+                        return remember_data(form.username.data)
 
                 elif form.remember.data is True and form.update.data is True:
                         update_data(form.username.data, form.password.data)
-                        remember_data(form.remember.data)
+                        return remember_data(form.remember.data)
 
                 else:
                         return show_html(form.username.data)

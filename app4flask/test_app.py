@@ -12,7 +12,7 @@ class TestApp(object):
                 json = r.json()
                 assert json[0]["session1"]["Info"]["Class"] != None
 
-        def test_browser(self):
+        def test_browser_normal(self):
                 br = mechanicalsoup.StatefulBrowser()
                 br.open("http://127.0.0.1:5000/login")
                 br.select_form(nr=0)
