@@ -21,12 +21,11 @@ data = datahandler.main()
 def show_info(today=None):
         if today is None:
                 if request.headers.get('timezone') is None:
-                        today = datetime.datetime.now(pytz.utc).weekday()
+                        today = datetime.datetime.now().weekday()
                 else:
                         timezone = pytz.timezone(request.headers.get('timezone'))
                         today = datetime.datetime.now(timezone).weekday()
         today = int(today)
-        today += 1
         student_num = str(request.headers.get('student_num'))
         if request.headers.get('update') == 'True' and request.method == 'POST':
                 password = str(request.headers.get('password'))
@@ -36,7 +35,7 @@ def show_info(today=None):
 
         try:
 
-                classes = [{'day': today}]
+                classes = [{'day': today + 1}]
 
                 # Gets json from database and creates the JSON that will be returned
                 for i in range(1, 10):
@@ -62,6 +61,10 @@ def index():
         # and if the person wants to update there timetable / Remember them
         form = Forms.LoginForm(request.form)
         if form.validate_on_submit():
+                def update_data(student_num, password):
+                        data.update(student_num, password)
+                        return show_html(student_num)
+
                 def remember_data(student_num):
                         response = make_response(show_html(student_num))
                         response.set_cookie('student_num', student_num, max_age=60 * 60 * 24 * 92)
@@ -69,15 +72,14 @@ def index():
 
                 # This make checks to see what buttons where clicked
                 if form.update.data is True and form.remember.data is False:
-                        data.update(form.username.data, form.password.data)
-                        return show_html(str(form.username.data))
+                        return update_data(form.username.data, form.password.data)
 
                 elif form.update.data is False and form.remember.data is True:
-                        remember_data(form.username.data)
+                        return remember_data(form.username.data)
 
                 elif form.remember.data is True and form.update.data is True:
                         update_data(form.username.data, form.password.data)
-                        remember_data(form.remember.data)
+                        return remember_data(form.remember.data)
 
                 else:
                         return show_html(form.username.data)
