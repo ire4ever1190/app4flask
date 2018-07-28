@@ -19,6 +19,8 @@ data = datahandler.main()
 @app.route('/list/', methods=['POST', 'GET'])
 @app.route('/list', methods=['POST', 'GET'])
 def show_info(today=None):
+        # Checks if the day has been specified then if it hasn't it just goes with system timezone
+        # If the timezone was specified then it reads the header and uses that
         if today is None:
                 if request.headers.get('timezone') is None:
                         today = datetime.datetime.now().weekday()
