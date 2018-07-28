@@ -81,7 +81,7 @@ def index():
 
                 elif form.remember.data is True and form.update.data is True:
                         update_data(form.username.data, form.password.data)
-                        return remember_data(form.remember.data)
+                        return remember_data(form.username.data)
 
                 else:
                         return show_html(form.username.data)

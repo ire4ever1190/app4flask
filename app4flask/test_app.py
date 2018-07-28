@@ -20,7 +20,7 @@ class TestApp(object):
         def test_client_updating(self):
                 username = str(os.environ["username"])
                 password = str(os.environ["password"])
-                headers = {"student_num": username, "password": password, "update":"True"}
+                headers = {"student_num": username, "password": password, "update": "True"}
                 url = "http://127.0.0.1:5000/list"
                 r = requests.post(url=url, headers=headers)
                 json = r.json()
@@ -30,7 +30,7 @@ class TestApp(object):
         def test_client_updating_get(self):
                 username = str(os.environ["username"])
                 password = str(os.environ["password"])
-                headers = {"student_num": username, "password": password, "update":"True"}
+                headers = {"student_num": username, "password": password, "update": "True"}
                 url = "http://127.0.0.1:5000/list"
                 r = requests.get(url=url, headers=headers)
                 text = r.text
