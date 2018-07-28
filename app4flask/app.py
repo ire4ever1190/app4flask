@@ -62,10 +62,6 @@ def index():
         # and if the person wants to update there timetable / Remember them
         form = Forms.LoginForm(request.form)
         if form.validate_on_submit():
-                def update_data(student_num, password):
-                        data.update(student_num, password)
-                        return show_html(student_num)
-
                 def remember_data(student_num):
                         response = make_response(show_html(student_num))
                         response.set_cookie('student_num', student_num, max_age=60 * 60 * 24 * 92)
@@ -73,7 +69,8 @@ def index():
 
                 # This make checks to see what buttons where clicked
                 if form.update.data is True and form.remember.data is False:
-                        update_data(form.username.data, form.password.data)
+                        data.update(form.username.data, form.password.data)
+                        return show_html(str(form.username.data))
 
                 elif form.update.data is False and form.remember.data is True:
                         remember_data(form.username.data)
