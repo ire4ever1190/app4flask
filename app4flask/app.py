@@ -21,7 +21,7 @@ data = datahandler.main()
 def show_info(today=None):
         if today is None:
                 if request.headers.get('timezone') is None:
-                        today = datetime.datetime.now(pytz.utc).weekday()
+                        today = datetime.datetime.now().weekday()
                 else:
                         timezone = pytz.timezone(request.headers.get('timezone'))
                         today = datetime.datetime.now(timezone).weekday()

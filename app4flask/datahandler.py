@@ -42,17 +42,21 @@ class main():
                                                 search = str(i)
                                                 room = re.search(r'([A-Z])\w+\d', search)
                                                 room_list.append(room.group())
+                                        except:
+                                                room_list.append("Outside")
 
+                                        try:
                                                 teacher = re.search(r'([A-Z]+[a-z])\w+\s+\w+\w', search)
                                                 teacher_list.append(teacher.group())
+                                        except:
+                                                teacher_list.append("No one listed")
 
-                                                time = re.search(r'([0-9])+:+\w+', search)
+                                        try:
+                                                time = re.search(r'([0-9])+:+\w+ - ([0-9])+:+\w+', search)
                                                 time_list.append(time.group())
                                         # This is just for lunch since lunch doesn't have extra info
                                         except:
-                                                room_list.append("Outside")
-                                                teacher_list.append(" ")
-                                                time_list.append(" ")
+                                                time_list.append("Not listed")
 
                         # use start and end to break the the main into into smaller lists of days
                         def day_list(start, end):
