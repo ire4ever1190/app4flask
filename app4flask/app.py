@@ -1,6 +1,6 @@
 import datetime
-import pytz
 
+import pytz
 from flask import Flask
 from flask import render_template, request, make_response, jsonify
 

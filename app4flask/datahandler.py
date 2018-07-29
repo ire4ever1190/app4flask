@@ -1,5 +1,5 @@
 import os
-import re
+
 import mechanicalsoup
 from tinydb import TinyDB, where
 
@@ -38,26 +38,19 @@ class main():
                                         timetable_list.append(i.text.strip())
                                 for i in extrainfo:
                                         # Find things such has teacher names, times and rooms using self.find_between
-                                        try:
-                                                presearch = self.find_between(str(i), '<br/>', '<br/>')
-                                                room = self.find_between(str(i), presearch + '<br/>', '</span>')
-                                                room_list.append(room)
-                                        except mechanicalsoup.LinkNotFoundError:
-                                                room_list.append("Outside")
+                                        presearch = self.find_between(str(i), '<br/>', '<br/>')
+                                        room = self.find_between(str(i), presearch + '<br/>', '</span>')
+                                        room_list.append(room)
 
-                                        try:
-                                                teacher = self.find_between(str(i), '<span class="ttname">', '<br/>')
-                                                teacher_list.append(teacher)
-                                        except:
-                                                teacher_list.append("No one listed")
+                                        teacher = self.find_between(str(i), '<span class="ttname">', '<br/>')
+                                        teacher_list.append(teacher)
 
-                                        try:
-                                                # Time has a space at the start so it is removed
-                                                time = str(self.find_between(str(i), '<br/>', '<br/>')).replace(" ","")
-                                                time_list.append(time)
+                                        teacher_list.append("No one listed")
+
+                                        # Time has a space at the start so it is removed
+                                        time = str(self.find_between(str(i), '<br/>', '<br/>')).replace(" ","")
+                                        time_list.append(time)
                                         # This is just for lunch since lunch doesn't have extra info
-                                        except:
-                                                time_list.append("Not listed")
 
                         # use start and end to break the the main into into smaller lists of days
                         def day_list(start, end):
@@ -109,7 +102,7 @@ class main():
 
                         print("database updated")
 
-                except mechanicalsoup.LinkNotFoundError:
+                except TypeError:
                         print("connection unreliable, please try again later")
                         pass
 
