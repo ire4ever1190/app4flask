@@ -37,8 +37,7 @@ class main():
                                 for i in classes:
                                         timetable_list.append(i.text.strip())
                                 for i in extrainfo:
-                                        print(i)
-                                        # Find things such has teacher names, times and rooms using a self.find_between
+                                        # Find things such has teacher names, times and rooms using self.find_between
                                         try:
                                                 presearch = self.find_between(str(i), '<br/>', '<br/>')
                                                 room = self.find_between(str(i), presearch + '<br/>', '</span>')
