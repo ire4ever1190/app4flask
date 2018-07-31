@@ -108,12 +108,11 @@ class main():
 
         # This returns pure json from database
         def get_json(self, day, session, user):
-
                 return tinydb.get((where('Day') == day) & (where('Session') == session) & (where('User') == str(user)))
 
         # This returns structured specific data from database
         def get(self, day, session, user, item):
-                jsonstr = tinydb.get((where('Day') == day) & (where('Session') == session) & (where('User') == user))
+                jsonstr = tinydb.get((where('Day') == day) & (where('Session') == session) & (where('User') == str(user)))
                 parse = jsonstr["Info"][item]
                 return parse
 

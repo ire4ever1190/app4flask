@@ -40,8 +40,9 @@ def show_info(today=None):
                 classes = [{'day': today + 1}]
 
                 # Gets json from database and creates the JSON that will be returned
+                student_num = str(request.headers.get('student_num'))
                 for i in range(1, 10):
-                        classes[0]["session" + str(i)] = data.get_json(today, i, 37161)
+                        classes[0]["session" + str(i)] = data.get_json(today, i, str(student_num))
                 return jsonify(classes)
         # if there not in the database this except gets raised and updates the timetable
         except TypeError:
