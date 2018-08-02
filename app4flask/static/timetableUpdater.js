@@ -31,5 +31,18 @@ function sendhttp(url){
 	xhttp.setRequestHeader("timezone", Intl.DateTimeFormat().resolvedOptions().timeZone);
 	xhttp.send();
 }
+
+function selectday(day){
+    if (day == 'next'){
+        var day = document.getElementById("name");
+        var newday = day + 1
+        sendhttp("/list" + newday)
+    }
+    if (day == 'prev'){
+        var day = document.getElementById("name");
+        var newday = day - 1
+        sendhttp("/list" + newday)
+    }
+}
 window.onload = sendhttp("/list");
 
