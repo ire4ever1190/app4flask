@@ -22,9 +22,12 @@ xhttp.onreadystatechange = function() {
 
     }
 }
-xhttp.open("POST", "/list", true);
-  // Not the best way of doing it but it works
-var username = document.getElementById("name");
-xhttp.setRequestHeader("student_num", document.getElementById("name").innerHTML);
-xhttp.setRequestHeader("timezone", Intl.DateTimeFormat().resolvedOptions().timeZone);
-xhttp.send();
+function sendhttp(url){
+	xhttp.open("POST", url, true);
+	  // Not the best way of doing it but it works
+	var username = document.getElementById("name");
+	xhttp.setRequestHeader("student_num", document.getElementById("name").innerHTML);
+	xhttp.setRequestHeader("timezone", Intl.DateTimeFormat().resolvedOptions().timeZone);
+	xhttp.send();
+}
+window.onload = sendhttp("/list");
