@@ -37,7 +37,7 @@ def show_info(today=None):
 
         try:
 
-                classes = [{'day': today + 1}]
+                classes = [{'day': today}]
 
                 # Gets json from database and creates the JSON that will be returned
                 student_num = str(request.headers.get('student_num'))
