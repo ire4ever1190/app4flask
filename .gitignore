@@ -6,5 +6,4 @@ db.json
 _pycache_
 app4flask/db.json
 *.pyc
-app4flask/app.pyc
-app4flask/datahandler.pyc
+
