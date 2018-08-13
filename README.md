@@ -11,6 +11,8 @@ To run first clone this then cd into the dir then run.
 sudo pip install -r requirements.txt
 ```
 Then set your schools name from the command line.
+You find the school name by looking at the app4 url
+https://{ This is your school name}.app4.ws
 ```
 export school={{ school name }}
 ```
