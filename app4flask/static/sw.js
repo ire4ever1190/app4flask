@@ -2,6 +2,7 @@ var cacheName = 'App4-Timetable-cache';
 var filesToCache = [
     '/static/timetableUpdater.js',
     '/icons.ico',
+    '/timetable',
 ];
 
 self.addEventListener('install', function(e) {

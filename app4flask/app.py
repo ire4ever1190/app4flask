@@ -46,8 +46,7 @@ def show_info(today=None):
                 return jsonify(classes)
         # if there not in the database this except gets raised and updates the timetable
         except TypeError:
-                data.update(student_num, str(request.headers.get('password')))
-                return show_html(student_num)
+                return "Please add add your info into the databasE"
 
 
 # This doesn't need a route. It is only used by the index route
@@ -96,6 +95,33 @@ def index():
                                                form=form
                                                )
 
+
+@app.route('/timetable', methods=['GET', 'POST'])
+def timetable():
+        form = Forms.LoginForm(request.form)
+        if form.validate_on_submit():
+                def update_data(student_num, password):
+                        data.update(student_num, password)
+                        return show_html(student_num)
+
+                def remember_data(student_num):
+                        response = make_response(show_html(student_num))
+                        response.set_cookie('student_num', student_num, max_age=60 * 60 * 24 * 92)
+                        return response
+
+                # This make checks to see what buttons where clicked
+                if form.update.data is True and form.remember.data is False:
+                        return update_data(form.username.data, form.password.data)
+
+                elif form.update.data is False and form.remember.data is True:
+                        return remember_data(form.username.data)
+
+                elif form.remember.data is True and form.update.data is True:
+                        update_data(form.username.data, form.password.data)
+                        return remember_data(form.username.data)
+
+                else:
+                        return show_html(form.username.data)
 
 @app.route('/icons.ico')
 def giveicon():

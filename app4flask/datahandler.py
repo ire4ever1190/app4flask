@@ -21,9 +21,7 @@ class main():
                         br["txtLoginPassword"] = password
                         br.submit_selected()
                         br.open(url + str("portal/timetable.php"))
-
-                        classes = br.get_current_page().find_all('td', {"width": '18%'})
-
+                        classes = br.get_current_page().find_all('td', {'class': ['ttblue', 'ttgreen']})
 
                         room_list = []
                         teacher_list = []
@@ -80,13 +78,16 @@ class main():
                                         teacher = str(teacher)
                                         time = str(time)
 
-                                        # Upsert means that if its there it will update it but if its not then it will create it
-                                        tinydb.upsert({'Day': dayid, 'Session': session, 'User': user, 'Info':{
+                                        # Upsert means that if its there it will update it
+                                        # but if its not then it will create it
+                                        tinydb.upsert({'Day': dayid, 'Session': session, 'User': user, 'Info': {
                                                 'Class': clas,
                                                  'Time': time,
                                                  'Room': room,
                                                  'Teacher': teacher}
-                                                }, (where('Day') == dayid) & (where('Session') == session) & (where('User') == str(user)))
+                                                }, (where('Day') == dayid) &
+                                                   (where('Session') == session) &
+                                                   (where('User') == str(user)))
 
                                         session += 1
 

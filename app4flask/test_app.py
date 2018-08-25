@@ -37,6 +37,7 @@ class TestApp(object):
                 headers = {"student_num": username, "password": password, "update": "True"}
                 url = "http://127.0.0.1:5000/list"
                 r = requests.post(url=url, headers=headers)
+                print(r.text)
                 json = r.json()
                 assert json[0]["session1"]["Info"]["Class"] != None
 
