@@ -2,7 +2,7 @@ import datetime
 
 import pytz
 from flask import Flask
-from flask import render_template, request, make_response, jsonify
+from flask import render_template, request, make_response, jsonify, redirect
 
 import Forms
 import datahandler
@@ -62,44 +62,30 @@ def index():
         # This is the index page. It shows a form asking for student_num and password
         # and if the person wants to update there timetable / Remember them
         form = Forms.LoginForm(request.form)
-        if form.validate_on_submit():
-                def update_data(student_num, password):
-                        data.update(student_num, password)
-                        return show_html(student_num)
 
-                def remember_data(student_num):
-                        response = make_response(show_html(student_num))
-                        response.set_cookie('student_num', student_num, max_age=60 * 60 * 24 * 92)
-                        return response
 
-                # This make checks to see what buttons where clicked
-                if form.update.data is True and form.remember.data is False:
-                        return update_data(form.username.data, form.password.data)
-
-                elif form.update.data is False and form.remember.data is True:
-                        return remember_data(form.username.data)
-
-                elif form.remember.data is True and form.update.data is True:
-                        update_data(form.username.data, form.password.data)
-                        return remember_data(form.username.data)
-
-                else:
-                        return show_html(form.username.data)
+        if request.cookies.get('student_num') is not None:
+                student_num = request.cookies.get('student_num')
+                return show_html(student_num)
         else:
-                if request.cookies.get('student_num') is not None:
-                        student_num = request.cookies.get('student_num')
-                        return show_html(student_num)
-                else:
-                        form = Forms.LoginForm()
-                        return render_template('Login.html',
-                                               form=form
-                                               )
+                form = Forms.LoginForm()
+                return render_template('Login.html',
+                                       form=form
+                                       )
 
 
 @app.route('/timetable', methods=['GET', 'POST'])
 def timetable():
         form = Forms.LoginForm(request.form)
-        if form.validate_on_submit():
+
+        if request.cookies.get('student_num') is not None:
+                student_num = request.cookies.get('student_num')
+                return show_html(student_num)
+
+        elif request.cookies.get('student_num') is None:
+                return redirect('/login')
+
+        elif form.validate_on_submit():
                 def update_data(student_num, password):
                         data.update(student_num, password)
                         return show_html(student_num)
@@ -108,8 +94,7 @@ def timetable():
                         response = make_response(show_html(student_num))
                         response.set_cookie('student_num', student_num, max_age=60 * 60 * 24 * 92)
                         return response
-
-                # This make checks to see what buttons where clicked
+                        # This make checks to see what buttons where clicked
                 if form.update.data is True and form.remember.data is False:
                         return update_data(form.username.data, form.password.data)
 
@@ -120,16 +105,10 @@ def timetable():
                         update_data(form.username.data, form.password.data)
                         return remember_data(form.username.data)
 
-                else:
-                        return show_html(form.username.data)
-
-@app.route('/icons.ico')
-def giveicon():
-        return app.send_static_file('icons.ico')
 
 
-@app.route('/sw.js')
-def givesw():
+@app.route('/timetable/sw.js')
+def sw():
         return app.send_static_file('sw.js')
 
 

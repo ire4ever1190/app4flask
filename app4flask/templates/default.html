@@ -1,7 +1,7 @@
 <html lang="en">
 <head>
     <title>{{ user }}'s Timetable</title>
-    <link rel="icon" type="image/png" sizes="192x192" href="/icons.ico">
+    <link rel="icon" type="image/png" sizes="192x192" href="static/icons.ico">
     <link rel="manifest" href="/static/manifest.json">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -102,7 +102,7 @@ h3 {
     <script>
 
       if('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/sw.js')
+        navigator.serviceWorker.register('/timetable/sw.js')
           .then(function() {
                 console.log('Service Worker Registered');
           });
