@@ -19,13 +19,13 @@ def browser_base_login():
 
 def check_for_none(string):
         for i in range(0, 9):
-                if string[0]["session" + str(i + 1)]["Info"]["Teacher"] is "None":
+                if string[0]["session" + str(i + 1)]["Info"]["Teacher"] is None:
                         return False
-                elif string[0]["session" + str(i + 1)]["Info"]["Time"] is "None":
+                elif string[0]["session" + str(i + 1)]["Info"]["Time"] is None:
                         return False
-                elif string[0]["session" + str(i + 1)]["Info"]["Room"] is "None":
+                elif string[0]["session" + str(i + 1)]["Info"]["Room"] is None:
                         return False
-                elif string[0]["session" + str(i + 1)]["Info"]["Class"] is "None":
+                elif string[0]["session" + str(i + 1)]["Info"]["Class"] is None:
                         return False
                 else:
                         return True
@@ -40,7 +40,7 @@ class TestApp(object):
                 r = requests.post(url=url, headers=headers)
                 print(r.text)
                 json = r.json()
-                assert json[0]["session1"]["Info"]["Class"] != None
+                assert json[0]["session1"]["Info"]["Class"] is not None
 
         def test_client_updating_get(self):
                 username = str(os.environ["username"])
