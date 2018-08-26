@@ -66,7 +66,7 @@ class TestApp(object):
                 br = browser_base_login()
                 br["remember"] = "y"
                 br.submit_selected()
-                br.open("http://127.0.0.1:5000/login")
+                br.open("http://127.0.0.1:5000/timetable")
                 assert br.get_current_page().find('title').text.strip() is not "Login"
 
         def test_browser_update(self):
