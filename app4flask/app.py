@@ -51,27 +51,16 @@ def show_info(today=None):
 
 # This doesn't need a route. It is only used by the index route
 def show_html(student_num):
-        return render_template('default.html',
-                               user=student_num,
-                               )
+        return render_template('default.html', user=student_num,)
 
 
 @app.route('/login', methods=['GET', 'POST'])
 @app.route('/', methods=['GET', 'POST'])
 def index():
         # This is the index page. It shows a form asking for student_num and password
-        # and if the person wants to update there timetable / Remember them
-        form = Forms.LoginForm(request.form)
-
-
-        if request.cookies.get('student_num') is not None:
-                student_num = request.cookies.get('student_num')
-                return show_html(student_num)
-        else:
-                form = Forms.LoginForm()
-                return render_template('Login.html',
-                                       form=form
-                                       )
+        # and if the person wants to update their timetable / Remember them
+        form = Forms.LoginForm()
+        return render_template('Login.html',form=form)
 
 
 @app.route('/timetable', methods=['GET', 'POST'])
