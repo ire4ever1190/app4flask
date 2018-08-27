@@ -51,49 +51,58 @@ def show_info(today=None):
 
 # This doesn't need a route. It is only used by the index route
 def show_html(student_num):
-        return render_template('default.html', user=student_num,)
+        return render_template('default.html', user=student_num, )
 
 
-@app.route('/login', methods=['GET', 'POST'])
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/login')
+@app.route('/', )
 def index():
         # This is the index page. It shows a form asking for student_num and password
         # and if the person wants to update their timetable / Remember them
         form = Forms.LoginForm()
-        return render_template('Login.html',form=form)
+        return render_template('Login.html', form=form)
 
 
 @app.route('/timetable', methods=['GET', 'POST'])
 def timetable():
-        form = Forms.LoginForm(request.form)
+        def update_data(student_num, password):
+                        data.update(student_num, password)
+                        return show_html(student_num)
 
+        def remember_data(student_num):
+                        response = make_response(show_html(student_num))
+                        response.set_cookie('student_num', student_num, max_age=60 * 60 * 24 * 92)
+                        return response
+
+        student_num = request.form.get('username')
+        if request.form.get('password') is not None:
+                password = request.form.get('password')
+        remember_me = request.form.get('remember')
+        update = request.form.get('update')
+        print(student_num, password, remember_me, update)
+        print(type(remember_me))
         if request.cookies.get('student_num') is not None:
                 student_num = request.cookies.get('student_num')
                 return show_html(student_num)
 
-        elif request.cookies.get('student_num') is None:
+        elif request.cookies.get('student_num') is None and request.method == "GET":
                 return redirect('/login')
 
-        elif form.validate_on_submit():
-                def update_data(student_num, password):
-                        data.update(student_num, password)
-                        return show_html(student_num)
 
-                def remember_data(student_num):
-                        response = make_response(show_html(student_num))
-                        response.set_cookie('student_num', student_num, max_age=60 * 60 * 24 * 92)
-                        return response
                         # This make checks to see what buttons where clicked
-                if form.update.data is True and form.remember.data is False:
-                        return update_data(form.username.data, form.password.data)
 
-                elif form.update.data is False and form.remember.data is True:
-                        return remember_data(form.username.data)
+        if str(update) == 'y' and remember_me is None:
+                return update_data(student_num, password)
 
-                elif form.remember.data is True and form.update.data is True:
-                        update_data(form.username.data, form.password.data)
-                        return remember_data(form.username.data)
+        elif update is None and remember_me == 'y':
+                return remember_data(student_num)
 
+        elif update == 'y' and remember_me == 'y':
+                update_data(student_num, password)
+                return remember_data(student_num)
+
+        else:
+                return show_html(student_num)
 
 
 @app.route('/timetable/sw.js')
