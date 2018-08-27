@@ -105,7 +105,7 @@ def timetable():
                 return show_html(student_num)
 
 
-@app.route('/timetable/sw.js')
+@app.route('/sw.js')
 def sw():
         return app.send_static_file('sw.js')
 
