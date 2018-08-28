@@ -13,7 +13,7 @@
  ],
   "display": "standalone",
   "orientation": "any",
-  "start_url": "/"
+  "start_url": "/timetable"
 }
 
 
