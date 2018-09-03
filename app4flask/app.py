@@ -79,8 +79,6 @@ def timetable():
                 password = request.form.get('password')
         remember_me = request.form.get('remember')
         update = request.form.get('update')
-        print(student_num, password, remember_me, update)
-        print(type(remember_me))
         if request.cookies.get('student_num') is not None:
                 student_num = request.cookies.get('student_num')
                 return show_html(student_num)
@@ -88,8 +86,7 @@ def timetable():
         elif request.cookies.get('student_num') is None and request.method == "GET":
                 return redirect('/login')
 
-
-                        # This make checks to see what buttons where clicked
+        # This make checks to see what buttons where clicked
 
         if str(update) == 'y' and remember_me is None:
                 return update_data(student_num, password)
