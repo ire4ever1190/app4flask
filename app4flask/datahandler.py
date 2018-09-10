@@ -43,8 +43,6 @@ class main():
                                         teacher = self.find_between(str(i), '<span class="ttname">', '<br/>')
                                         teacher_list.append(teacher)
 
-                                        teacher_list.append("No one listed")
-
                                         # Time has a space at the start so it is removed
                                         time = str(self.find_between(str(i), '<br/>', '<br/>')).replace(" ","")
                                         time_list.append(time)
