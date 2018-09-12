@@ -1,7 +1,7 @@
 var cacheName = 'App4-Timetable-cache';
 var filesToCache = [
     '/static/timetableUpdater.js',
-    '/icons.ico',
+    '/static/icons.ico',
     '/timetable',
 ];
 
