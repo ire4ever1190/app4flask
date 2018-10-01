@@ -1,7 +1,7 @@
 <html lang="en">
 <head>
     <title>{{ user }}'s Timetable</title>
-    <link rel="icon" type="image/png" sizes="192x192" href="/icons.ico">
+    <link rel="icon" type="image/png" sizes="192x192" href="static/icons.ico">
     <link rel="manifest" href="/static/manifest.json">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,9 +9,7 @@
     <meta name="Description" content="Displays your app4 timetable and can  be downloaded has an app.">
 </head>
 <body>
-<!-- Gets the data and displays it -->
-<!-- This is a work in progress -->
-<script src="/static/timetableUpdater.js"></script>
+
 
 
 <style>
@@ -46,13 +44,61 @@ h3 {
     day {
         grid-column: 2;
     }
-</style>
-<h1>{{ user }}'s Timetable</h1>
-<br>
-<h3>Day</h3>
-<day>Foo Day</day>
 
-{{ content }}
+    button {
+        grid-column: 2;
+    }
+</style>
+
+
+<h1>{{ user }}'s Timetable</h1>
+<p hidden id="name">{{ user }}</p>
+<br>
+<h3 hidden id="day"></h3>
+
+
+<class>  </class>
+<time>  </time>
+<teacher>  </teacher>
+<room>  </room>
+<class>  </class>
+<time>  </time>
+<teacher>  </teacher>
+<room>  </room>
+<class>  </class>
+<time>  </time>
+<teacher>  </teacher>
+<room>  </room>
+<class>  </class>
+<time>  </time>
+<teacher>  </teacher>
+<room>  </room>
+<class>  </class>
+<time>  </time>
+<teacher>  </teacher>
+<room>  </room>
+<class>  </class>
+<time>  </time>
+<teacher>  </teacher>
+<room>  </room>
+<class>  </class>
+<time>  </time>
+<teacher>  </teacher>
+<room>  </room>
+<class>  </class>
+<time>  </time>
+<teacher>  </teacher>
+<room>  </room>
+<class>  </class>
+<time>  </time>
+<teacher>  </teacher>
+<room>  </room>
+<br>
+<button type="button" onclick="nextday()">Next Day</button>
+<button type="button" onclick="prevday()">Previous day</button>
+<br>
+<button type="button" onclick="logout()">Logout</button>
+
     <script>
 
       if('serviceWorker' in navigator) {
@@ -63,5 +109,17 @@ h3 {
       }
 
     </script>
+<!-- Gets the data and displays it -->
+<!-- This is a work in progress -->
+<script src="/static/timetableUpdater.js"></script>
+<script>
+
+    var logout = function () {
+        document.cookie = 'student_num' + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        window.location.href = window.location.href;
+    }
+</script>
+
 </body>
+
 </html>

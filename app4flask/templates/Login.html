@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Login</title>
 </head>
 <body><style>
     html {
@@ -13,6 +13,7 @@ body {
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: auto;
   grid-gap: 10px;
+
 }
 form {
     grid-column: 2;
@@ -26,7 +27,7 @@ h3 {
 </style>
 
         <h1>Sign In</h1>
-    <form action="/" method="post">
+    <form action="/timetable" method="post">
         {{ form.hidden_tag() }}
         <p>
             {{ form.username.label }}<br>

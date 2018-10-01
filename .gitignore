@@ -5,3 +5,5 @@ db.json
 .pytest_cache
 _pycache_
 app4flask/db.json
+*.pyc
+

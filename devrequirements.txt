@@ -2,7 +2,8 @@ datetime
 mechanicalsoup
 flask
 tinydb
-flask_wtf
+flask-wtf
+pytz
 wtforms
 tox
 pytest
